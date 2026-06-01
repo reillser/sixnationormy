@@ -127,7 +127,7 @@ nav button:hover{color:var(--white)}
 </div>
 <div class="filters">
 <select id="filterNation" onchange="renderTransferList()"><option value="">All Nations</option><option value="IRL">Ireland</option><option value="FRA">France</option><option value="ENG">England</option><option value="SCO">Scotland</option><option value="ITA">Italy</option><option value="WAL">Wales</option></select>
-<select id="filterPos" onchange="renderTransferList()"><option value="">All Positions</option><option value="PR">Prop</option><option value="HK">Hooker</option><option value="LK">Lock</option><option value="FL">Flanker</option><option value="N8">No.8</option><option value="SH">Scrum-half</option><option value="FH">Fly-half</option><option value="CE">Centre</option><option value="WG">Wing</option><option value="FB">Fullback</option></select>
+<select id="filterPos" onchange="renderTransferList()"><option value="">All Positions</option><option value="Prop">Prop</option><option value="Hooker">Hooker</option><option value="Lock">Lock</option><option value="Flanker">Flanker</option><option value="Number 8">Number 8</option><option value="Scrum Half">Scrum Half</option><option value="Fly Half">Fly Half</option><option value="Centre">Centre</option><option value="Wing">Wing</option><option value="Full Back">Full Back</option></select>
 <input type="text" id="filterSearch" placeholder="Search player..." oninput="renderTransferList()">
 </div>
 <div id="transferList"></div>
@@ -172,11 +172,13 @@ nav button:hover{color:var(--white)}
 <div class="points-breakdown">
 <div class="row"><span>Try</span><span>+20 pts</span></div>
 <div class="row"><span>Try Assist</span><span>+10 pts</span></div>
-<div class="row"><span>Conversion</span><span>+5 pts</span></div>
+<div class="row"><span>Conversion</span><span>+3 pts</span></div>
 <div class="row"><span>Penalty Goal</span><span>+3 pts</span></div>
 <div class="row"><span>Drop Goal</span><span>+10 pts</span></div>
 <div class="row"><span>Clean Break</span><span>+5 pts</span></div>
 <div class="row"><span>Offload</span><span>+3 pts</span></div>
+<div class="row"><span>Metres Made</span><span>+0.1 per metre</span></div>
+<div class="row"><span>Defenders Beaten</span><span>+1 pt</span></div>
 <div class="row"><span>Tackle Made</span><span>+1 pt</span></div>
 <div class="row"><span>Turnover Won</span><span>+7 pts</span></div>
 <div class="row"><span>Lineout Steal</span><span>+5 pts</span></div>
@@ -194,8 +196,9 @@ nav button:hover{color:var(--white)}
 <div class="row"><span>Budget</span><span>€100m</span></div>
 <div class="row"><span>Player Prices</span><span>€5m - €12m</span></div>
 <div class="row"><span>Max Per Nation</span><span>5 players</span></div>
-<div class="row"><span>Captain</span><span>x2 multiplier</span></div>
+<div class="row"><span>Captain</span><span>x1.5 multiplier</span></div>
 <div class="row"><span>Free Transfers</span><span>2 per round</span></div>
+<div class="row"><span>Bench Players</span><span>Half points</span></div>
 <div class="row"><span>Extra Transfer Cost</span><span>-5 pts each</span></div>
 </div></div>
 </div>
@@ -242,83 +245,217 @@ nav button:hover{color:var(--white)}
 <script>
 // ============ PLAYER DATABASE ============
 const PLAYERS = [
-// FRANCE
-{id:1,name:"Antoine Dupont",nation:"FRA",pos:"SH",price:12.0},
-{id:2,name:"Louis Bielle-Biarrey",nation:"FRA",pos:"WG",price:10.5},
-{id:3,name:"Thomas Ramos",nation:"FRA",pos:"FB",price:10.0},
-{id:4,name:"Matthieu Jalibert",nation:"FRA",pos:"FH",price:9.5},
-{id:5,name:"Charles Ollivon",nation:"FRA",pos:"FL",price:9.0},
-{id:6,name:"Gregory Alldritt",nation:"FRA",pos:"N8",price:9.0},
-{id:7,name:"Romain Ntamack",nation:"FRA",pos:"FH",price:8.5},
-{id:8,name:"Damian Penaud",nation:"FRA",pos:"WG",price:8.5},
-{id:9,name:"Thibaud Flament",nation:"FRA",pos:"LK",price:7.5},
-{id:10,name:"Julien Marchand",nation:"FRA",pos:"HK",price:7.0},
-{id:11,name:"Theo Attissogbe",nation:"FRA",pos:"WG",price:7.0},
-// IRELAND
-{id:12,name:"Caelan Doris",nation:"IRL",pos:"N8",price:10.0},
-{id:13,name:"Bundee Aki",nation:"IRL",pos:"CE",price:8.0},
-{id:14,name:"Tadhg Furlong",nation:"IRL",pos:"PR",price:7.5},
-{id:15,name:"Josh van der Flier",nation:"IRL",pos:"FL",price:8.5},
-{id:16,name:"Hugo Keenan",nation:"IRL",pos:"FB",price:8.0},
-{id:17,name:"Jack Crowley",nation:"IRL",pos:"FH",price:8.0},
-{id:18,name:"Jamison Gibson-Park",nation:"IRL",pos:"SH",price:7.5},
-{id:19,name:"James Lowe",nation:"IRL",pos:"WG",price:7.5},
-{id:20,name:"Garry Ringrose",nation:"IRL",pos:"CE",price:7.0},
-{id:21,name:"Tadhg Beirne",nation:"IRL",pos:"LK",price:8.5},
-{id:22,name:"Conor Murray",nation:"IRL",pos:"SH",price:6.5},
-{id:23,name:"Cian Healy",nation:"IRL",pos:"PR",price:5.5},
-// ENGLAND
-{id:24,name:"Marcus Smith",nation:"ENG",pos:"FH",price:9.0},
-{id:25,name:"Maro Itoje",nation:"ENG",pos:"LK",price:9.5},
-{id:26,name:"Ben Earl",nation:"ENG",pos:"FL",price:9.0},
-{id:27,name:"Immanuel Feyi-Waboso",nation:"ENG",pos:"WG",price:8.0},
-{id:28,name:"Henry Slade",nation:"ENG",pos:"CE",price:7.5},
-{id:29,name:"George Furbank",nation:"ENG",pos:"FB",price:7.5},
-{id:30,name:"Jamie George",nation:"ENG",pos:"HK",price:7.0},
-{id:31,name:"Ellis Genge",nation:"ENG",pos:"PR",price:7.0},
-{id:32,name:"Alex Mitchell",nation:"ENG",pos:"SH",price:7.5},
-{id:33,name:"Ollie Lawrence",nation:"ENG",pos:"CE",price:7.0},
-{id:34,name:"Sam Underhill",nation:"ENG",pos:"FL",price:6.5},
-// SCOTLAND
-{id:35,name:"Finn Russell",nation:"SCO",pos:"FH",price:8.5},
-{id:36,name:"Duhan van der Merwe",nation:"SCO",pos:"WG",price:8.5},
-{id:37,name:"Huw Jones",nation:"SCO",pos:"CE",price:7.0},
-{id:38,name:"Rory Darge",nation:"SCO",pos:"FL",price:7.5},
-{id:39,name:"Blair Kinghorn",nation:"SCO",pos:"FB",price:7.0},
-{id:40,name:"Jamie Ritchie",nation:"SCO",pos:"FL",price:7.0},
-{id:41,name:"Ben White",nation:"SCO",pos:"SH",price:6.5},
-{id:42,name:"Scott Cummings",nation:"SCO",pos:"LK",price:6.5},
-{id:43,name:"Ewan Ashman",nation:"SCO",pos:"HK",price:6.0},
-{id:44,name:"Pierre Schoeman",nation:"SCO",pos:"PR",price:6.0},
-// ITALY
-{id:45,name:"Ange Capuozzo",nation:"ITA",pos:"FB",price:8.0},
-{id:46,name:"Paolo Garbisi",nation:"ITA",pos:"FH",price:7.5},
-{id:47,name:"Michele Lamaro",nation:"ITA",pos:"FL",price:7.0},
-{id:48,name:"Tommaso Allan",nation:"ITA",pos:"FH",price:6.0},
-{id:49,name:"Lorenzo Cannone",nation:"ITA",pos:"LK",price:6.5},
-{id:50,name:"Monty Ioane",nation:"ITA",pos:"WG",price:6.5},
-{id:51,name:"Juan Ignacio Brex",nation:"ITA",pos:"CE",price:6.0},
-{id:52,name:"Stephen Varney",nation:"ITA",pos:"SH",price:6.0},
-{id:53,name:"Danilo Fischetti",nation:"ITA",pos:"PR",price:5.5},
-{id:54,name:"Giacomo Nicotera",nation:"ITA",pos:"HK",price:5.5},
-// WALES
-{id:55,name:"Jac Morgan",nation:"WAL",pos:"FL",price:7.5},
-{id:56,name:"Dewi Lake",nation:"WAL",pos:"HK",price:6.5},
-{id:57,name:"Liam Williams",nation:"WAL",pos:"FB",price:6.5},
-{id:58,name:"Josh Adams",nation:"WAL",pos:"WG",price:7.0},
-{id:59,name:"Tomos Williams",nation:"WAL",pos:"SH",price:6.5},
-{id:60,name:"Gareth Anscombe",nation:"WAL",pos:"FH",price:6.0},
-{id:61,name:"Adam Beard",nation:"WAL",pos:"LK",price:6.0},
-{id:62,name:"Taulupe Faletau",nation:"WAL",pos:"N8",price:7.0},
-{id:63,name:"Will Rowlands",nation:"WAL",pos:"LK",price:6.0},
-{id:64,name:"Rio Dyer",nation:"WAL",pos:"WG",price:6.0},
-{id:65,name:"Nick Tompkins",nation:"WAL",pos:"CE",price:6.0},
-// Extra players
-{id:66,name:"Andrew Porter",nation:"IRL",pos:"PR",price:7.5},
-{id:67,name:"Dan Sheehan",nation:"IRL",pos:"HK",price:7.0},
-{id:68,name:"Cian Prendergast",nation:"IRL",pos:"FL",price:6.5},
-{id:69,name:"Cameron Woki",nation:"FRA",pos:"LK",price:8.0},
-{id:70,name:"Cyril Baille",nation:"FRA",pos:"PR",price:7.0},
+{id:1,name:"Antoine Dupont",nation:"FRA",pos:"Scrum Half",price:12.0},
+{id:2,name:"Louis Bielle-Biarrey",nation:"FRA",pos:"Wing",price:11.0},
+{id:3,name:"Thomas Ramos",nation:"FRA",pos:"Full Back",price:10.0},
+{id:4,name:"Matthieu Jalibert",nation:"FRA",pos:"Fly Half",price:9.5},
+{id:5,name:"Romain Ntamack",nation:"FRA",pos:"Fly Half",price:9.5},
+{id:6,name:"Yoram Moefana",nation:"FRA",pos:"Centre",price:9.0},
+{id:7,name:"Nicolas Depoortere",nation:"FRA",pos:"Centre",price:9.0},
+{id:8,name:"Grégory Alldritt",nation:"FRA",pos:"Number 8",price:9.0},
+{id:9,name:"Charles Ollivon",nation:"FRA",pos:"Lock",price:8.5},
+{id:10,name:"Mickaël Guillard",nation:"FRA",pos:"Lock",price:8.5},
+{id:11,name:"Emmanuel Meafou",nation:"FRA",pos:"Number 8",price:8.0},
+{id:12,name:"François Cros",nation:"FRA",pos:"Flanker",price:8.0},
+{id:13,name:"Thibaud Flament",nation:"FRA",pos:"Lock",price:8.0},
+{id:14,name:"Damian Penaud",nation:"FRA",pos:"Wing",price:8.5},
+{id:15,name:"Peato Mauvaka",nation:"FRA",pos:"Hooker",price:8.0},
+{id:16,name:"Oscar Jégou",nation:"FRA",pos:"Flanker",price:7.5},
+{id:17,name:"Théo Attissogbe",nation:"FRA",pos:"Wing",price:7.5},
+{id:18,name:"Paul Boudehent",nation:"FRA",pos:"Flanker",price:7.5},
+{id:19,name:"Julien Marchand",nation:"FRA",pos:"Hooker",price:7.5},
+{id:20,name:"Pierre-Louis Barassi",nation:"FRA",pos:"Centre",price:7.0},
+{id:21,name:"Jean-Baptiste Gros",nation:"FRA",pos:"Prop",price:7.0},
+{id:22,name:"Dorian Aldegheri",nation:"FRA",pos:"Prop",price:7.0},
+{id:23,name:"Cyril Baille",nation:"FRA",pos:"Prop",price:7.0},
+{id:24,name:"Uini Atonio",nation:"FRA",pos:"Prop",price:7.0},
+{id:25,name:"Anthony Jelonch",nation:"FRA",pos:"Number 8",price:7.0},
+{id:26,name:"Hugo Auradou",nation:"FRA",pos:"Lock",price:6.5},
+{id:27,name:"Alexandre Roumat",nation:"FRA",pos:"Lock",price:6.5},
+{id:28,name:"Nolann Le Garrec",nation:"FRA",pos:"Scrum Half",price:6.5},
+{id:29,name:"Émilien Gailleton",nation:"FRA",pos:"Centre",price:6.5},
+{id:30,name:"Baptiste Serin",nation:"FRA",pos:"Scrum Half",price:6.0},
+{id:31,name:"Kalvin Gourgues",nation:"FRA",pos:"Fly Half",price:5.5},
+{id:32,name:"Rodrigue Neti",nation:"FRA",pos:"Prop",price:5.5},
+{id:33,name:"Régis Montagne",nation:"FRA",pos:"Prop",price:5.5},
+{id:34,name:"Georges-Henri Colombe",nation:"FRA",pos:"Prop",price:5.5},
+{id:35,name:"Lenni Nouchi",nation:"FRA",pos:"Scrum Half",price:5.0},
+{id:36,name:"Caelan Doris",nation:"IRL",pos:"Number 8",price:11.0},
+{id:37,name:"Josh van der Flier",nation:"IRL",pos:"Flanker",price:10.0},
+{id:38,name:"Tadhg Beirne",nation:"IRL",pos:"Lock",price:10.0},
+{id:39,name:"Garry Ringrose",nation:"IRL",pos:"Centre",price:9.5},
+{id:40,name:"Hugo Keenan",nation:"IRL",pos:"Full Back",price:9.0},
+{id:41,name:"Sam Prendergast",nation:"IRL",pos:"Fly Half",price:9.0},
+{id:42,name:"Jamison Gibson-Park",nation:"IRL",pos:"Scrum Half",price:9.0},
+{id:43,name:"Bundee Aki",nation:"IRL",pos:"Centre",price:9.0},
+{id:44,name:"James Lowe",nation:"IRL",pos:"Wing",price:8.5},
+{id:45,name:"Robbie Henshaw",nation:"IRL",pos:"Centre",price:8.5},
+{id:46,name:"Andrew Porter",nation:"IRL",pos:"Prop",price:8.5},
+{id:47,name:"Dan Sheehan",nation:"IRL",pos:"Hooker",price:8.5},
+{id:48,name:"Jack Crowley",nation:"IRL",pos:"Fly Half",price:8.0},
+{id:49,name:"Joe McCarthy",nation:"IRL",pos:"Lock",price:8.0},
+{id:50,name:"Peter O'Mahony",nation:"IRL",pos:"Flanker",price:8.0},
+{id:51,name:"Mack Hansen",nation:"IRL",pos:"Wing",price:7.5},
+{id:52,name:"Rob Baloucoune",nation:"IRL",pos:"Wing",price:7.5},
+{id:53,name:"Jack Conan",nation:"IRL",pos:"Number 8",price:7.5},
+{id:54,name:"James Ryan",nation:"IRL",pos:"Lock",price:7.5},
+{id:55,name:"Jacob Stockdale",nation:"IRL",pos:"Wing",price:7.5},
+{id:56,name:"Rónan Kelleher",nation:"IRL",pos:"Hooker",price:7.0},
+{id:57,name:"Cian Prendergast",nation:"IRL",pos:"Flanker",price:7.0},
+{id:58,name:"Stuart McCloskey",nation:"IRL",pos:"Centre",price:7.0},
+{id:59,name:"Jamie Osborne",nation:"IRL",pos:"Full Back",price:7.0},
+{id:60,name:"Finlay Bealham",nation:"IRL",pos:"Prop",price:7.0},
+{id:61,name:"Craig Casey",nation:"IRL",pos:"Scrum Half",price:6.5},
+{id:62,name:"Conor Murray",nation:"IRL",pos:"Scrum Half",price:6.5},
+{id:63,name:"Tommy O'Brien",nation:"IRL",pos:"Wing",price:6.5},
+{id:64,name:"Ryan Baird",nation:"IRL",pos:"Lock",price:6.5},
+{id:65,name:"Nick Timoney",nation:"IRL",pos:"Flanker",price:6.0},
+{id:66,name:"Thomas Clarkson",nation:"IRL",pos:"Prop",price:6.0},
+{id:67,name:"Jeremy Loughman",nation:"IRL",pos:"Prop",price:6.0},
+{id:68,name:"Nathan Doak",nation:"IRL",pos:"Scrum Half",price:6.0},
+{id:69,name:"Michael Milne",nation:"IRL",pos:"Prop",price:5.5},
+{id:70,name:"Gus McCarthy",nation:"IRL",pos:"Hooker",price:5.5},
+{id:71,name:"Jack Boyle",nation:"IRL",pos:"Prop",price:5.0},
+{id:72,name:"Harry Byrne",nation:"IRL",pos:"Fly Half",price:5.5},
+{id:73,name:"Tom O'Toole",nation:"IRL",pos:"Prop",price:5.5},
+{id:74,name:"Maro Itoje",nation:"ENG",pos:"Lock",price:10.0},
+{id:75,name:"Ben Earl",nation:"ENG",pos:"Flanker",price:10.0},
+{id:76,name:"Marcus Smith",nation:"ENG",pos:"Fly Half",price:9.5},
+{id:77,name:"Tom Curry",nation:"ENG",pos:"Flanker",price:9.0},
+{id:78,name:"George Ford",nation:"ENG",pos:"Fly Half",price:9.0},
+{id:79,name:"Freddie Steward",nation:"ENG",pos:"Full Back",price:8.5},
+{id:80,name:"Henry Arundell",nation:"ENG",pos:"Wing",price:8.5},
+{id:81,name:"Alex Mitchell",nation:"ENG",pos:"Scrum Half",price:8.5},
+{id:82,name:"Jamie George",nation:"ENG",pos:"Hooker",price:8.0},
+{id:83,name:"Ellis Genge",nation:"ENG",pos:"Prop",price:8.0},
+{id:84,name:"Ollie Chessum",nation:"ENG",pos:"Lock",price:8.0},
+{id:85,name:"Tommy Freeman",nation:"ENG",pos:"Centre",price:7.5},
+{id:86,name:"Fraser Dingwall",nation:"ENG",pos:"Centre",price:7.5},
+{id:87,name:"Henry Slade",nation:"ENG",pos:"Centre",price:7.5},
+{id:88,name:"Sam Underhill",nation:"ENG",pos:"Flanker",price:7.5},
+{id:89,name:"Elliot Daly",nation:"ENG",pos:"Full Back",price:7.5},
+{id:90,name:"Tom Roebuck",nation:"ENG",pos:"Wing",price:7.0},
+{id:91,name:"Fin Smith",nation:"ENG",pos:"Fly Half",price:7.0},
+{id:92,name:"Henry Pollock",nation:"ENG",pos:"Flanker",price:7.0},
+{id:93,name:"Guy Pepper",nation:"ENG",pos:"Flanker",price:7.0},
+{id:94,name:"Alex Coles",nation:"ENG",pos:"Lock",price:6.5},
+{id:95,name:"George Martin",nation:"ENG",pos:"Lock",price:6.5},
+{id:96,name:"Chandler Cunningham-South",nation:"ENG",pos:"Flanker",price:7.0},
+{id:97,name:"Tom Willis",nation:"ENG",pos:"Number 8",price:6.5},
+{id:98,name:"Cadan Murley",nation:"ENG",pos:"Wing",price:6.5},
+{id:99,name:"Ollie Sleightholme",nation:"ENG",pos:"Wing",price:6.5},
+{id:100,name:"Seb Atkinson",nation:"ENG",pos:"Centre",price:6.0},
+{id:101,name:"Joe Heyes",nation:"ENG",pos:"Prop",price:6.0},
+{id:102,name:"Luke Cowan-Dickie",nation:"ENG",pos:"Hooker",price:6.5},
+{id:103,name:"Jack Van Poortvliet",nation:"ENG",pos:"Scrum Half",price:6.0},
+{id:104,name:"Harry Randall",nation:"ENG",pos:"Scrum Half",price:6.0},
+{id:105,name:"Ben Curry",nation:"ENG",pos:"Flanker",price:6.0},
+{id:106,name:"Will Stuart",nation:"ENG",pos:"Prop",price:6.0},
+{id:107,name:"Bevan Rodd",nation:"ENG",pos:"Prop",price:5.5},
+{id:108,name:"Trevor Davison",nation:"ENG",pos:"Prop",price:5.5},
+{id:109,name:"Fin Baxter",nation:"ENG",pos:"Prop",price:5.5},
+{id:110,name:"Ben Spencer",nation:"ENG",pos:"Scrum Half",price:5.5},
+{id:111,name:"Finn Russell",nation:"SCO",pos:"Fly Half",price:10.5},
+{id:112,name:"Duhan van der Merwe",nation:"SCO",pos:"Wing",price:9.5},
+{id:113,name:"Rory Darge",nation:"SCO",pos:"Flanker",price:9.0},
+{id:114,name:"Sione Tuipulotu",nation:"SCO",pos:"Centre",price:8.5},
+{id:115,name:"Darcy Graham",nation:"SCO",pos:"Wing",price:8.5},
+{id:116,name:"Blair Kinghorn",nation:"SCO",pos:"Full Back",price:8.0},
+{id:117,name:"Huw Jones",nation:"SCO",pos:"Centre",price:8.0},
+{id:118,name:"Jack Dempsey",nation:"SCO",pos:"Number 8",price:7.5},
+{id:119,name:"Jamie Ritchie",nation:"SCO",pos:"Flanker",price:7.5},
+{id:120,name:"Matt Fagerson",nation:"SCO",pos:"Flanker",price:7.5},
+{id:121,name:"Kyle Steyn",nation:"SCO",pos:"Wing",price:7.0},
+{id:122,name:"Ben White",nation:"SCO",pos:"Scrum Half",price:7.0},
+{id:123,name:"Tom Jordan",nation:"SCO",pos:"Full Back",price:7.0},
+{id:124,name:"Grant Gilchrist",nation:"SCO",pos:"Lock",price:7.0},
+{id:125,name:"Zander Fagerson",nation:"SCO",pos:"Prop",price:7.0},
+{id:126,name:"Pierre Schoeman",nation:"SCO",pos:"Prop",price:7.0},
+{id:127,name:"Scott Cummings",nation:"SCO",pos:"Lock",price:6.5},
+{id:128,name:"Ewan Ashman",nation:"SCO",pos:"Hooker",price:6.5},
+{id:129,name:"Stafford McDowall",nation:"SCO",pos:"Centre",price:6.5},
+{id:130,name:"Rory Hutchinson",nation:"SCO",pos:"Centre",price:6.0},
+{id:131,name:"George Horne",nation:"SCO",pos:"Scrum Half",price:6.0},
+{id:132,name:"Kyle Rowe",nation:"SCO",pos:"Wing",price:6.0},
+{id:133,name:"Jamie Dobie",nation:"SCO",pos:"Wing",price:6.0},
+{id:134,name:"Adam Hastings",nation:"SCO",pos:"Fly Half",price:6.0},
+{id:135,name:"Fergus Burke",nation:"SCO",pos:"Fly Half",price:6.0},
+{id:136,name:"Gregor Brown",nation:"SCO",pos:"Flanker",price:5.5},
+{id:137,name:"Max Williamson",nation:"SCO",pos:"Lock",price:5.5},
+{id:138,name:"Jonny Gray",nation:"SCO",pos:"Lock",price:6.0},
+{id:139,name:"Dave Cherry",nation:"SCO",pos:"Hooker",price:5.5},
+{id:140,name:"Rory Sutherland",nation:"SCO",pos:"Prop",price:5.5},
+{id:141,name:"Nathan McBeth",nation:"SCO",pos:"Prop",price:5.0},
+{id:142,name:"Elliot Millar Mills",nation:"SCO",pos:"Prop",price:5.0},
+{id:143,name:"Ollie Smith",nation:"SCO",pos:"Full Back",price:5.5},
+{id:144,name:"Matt Currie",nation:"SCO",pos:"Centre",price:5.5},
+{id:145,name:"George Turner",nation:"SCO",pos:"Hooker",price:5.0},
+{id:146,name:"Gus Warr",nation:"SCO",pos:"Scrum Half",price:5.0},
+{id:147,name:"Josh Adams",nation:"WAL",pos:"Wing",price:8.5},
+{id:148,name:"Louis Rees-Zammit",nation:"WAL",pos:"Full Back",price:8.5},
+{id:149,name:"Aaron Wainwright",nation:"WAL",pos:"Number 8",price:8.0},
+{id:150,name:"Dewi Lake",nation:"WAL",pos:"Hooker",price:7.5},
+{id:151,name:"Dafydd Jenkins",nation:"WAL",pos:"Lock",price:7.5},
+{id:152,name:"Tomos Williams",nation:"WAL",pos:"Scrum Half",price:7.5},
+{id:153,name:"Jac Morgan",nation:"WAL",pos:"Flanker",price:7.5},
+{id:154,name:"Mason Grady",nation:"WAL",pos:"Centre",price:7.0},
+{id:155,name:"Ben Thomas",nation:"WAL",pos:"Centre",price:7.0},
+{id:156,name:"Dan Edwards",nation:"WAL",pos:"Fly Half",price:6.5},
+{id:157,name:"Sam Costelow",nation:"WAL",pos:"Fly Half",price:6.5},
+{id:158,name:"Eddie James",nation:"WAL",pos:"Centre",price:6.5},
+{id:159,name:"Taine Plumtree",nation:"WAL",pos:"Flanker",price:6.5},
+{id:160,name:"Adam Beard",nation:"WAL",pos:"Lock",price:6.5},
+{id:161,name:"Gabriel Hamer-Webb",nation:"WAL",pos:"Wing",price:6.0},
+{id:162,name:"Joe Hawkins",nation:"WAL",pos:"Centre",price:6.0},
+{id:163,name:"Ellis Mee",nation:"WAL",pos:"Wing",price:6.0},
+{id:164,name:"Josh Macleod",nation:"WAL",pos:"Flanker",price:6.0},
+{id:165,name:"Tomas Francis",nation:"WAL",pos:"Prop",price:6.0},
+{id:166,name:"Alex Mann",nation:"WAL",pos:"Flanker",price:6.0},
+{id:167,name:"Nicky Smith",nation:"WAL",pos:"Prop",price:6.0},
+{id:168,name:"Rhys Carre",nation:"WAL",pos:"Prop",price:5.5},
+{id:169,name:"Archie Griffin",nation:"WAL",pos:"Prop",price:5.5},
+{id:170,name:"Ben Carter",nation:"WAL",pos:"Lock",price:5.5},
+{id:171,name:"Kieran Hardy",nation:"WAL",pos:"Scrum Half",price:5.5},
+{id:172,name:"Jarrod Evans",nation:"WAL",pos:"Fly Half",price:5.5},
+{id:173,name:"Tom Rogers",nation:"WAL",pos:"Wing",price:5.5},
+{id:174,name:"Owen Watkin",nation:"WAL",pos:"Centre",price:5.5},
+{id:175,name:"Ryan Elias",nation:"WAL",pos:"Hooker",price:5.5},
+{id:176,name:"Blair Murray",nation:"WAL",pos:"Wing",price:5.0},
+{id:177,name:"Louie Hennessey",nation:"WAL",pos:"Wing",price:5.0},
+{id:178,name:"Liam Belcher",nation:"WAL",pos:"Hooker",price:5.0},
+{id:179,name:"Harri Deaves",nation:"WAL",pos:"Flanker",price:5.0},
+{id:180,name:"Reuben Morgan-Williams",nation:"WAL",pos:"Scrum Half",price:5.0},
+{id:181,name:"Sam Wainwright",nation:"WAL",pos:"Prop",price:5.0},
+{id:182,name:"Paolo Garbisi",nation:"ITA",pos:"Fly Half",price:9.0},
+{id:183,name:"Tommaso Menoncello",nation:"ITA",pos:"Centre",price:8.5},
+{id:184,name:"Louis Lynagh",nation:"ITA",pos:"Wing",price:8.0},
+{id:185,name:"Michele Lamaro",nation:"ITA",pos:"Flanker",price:7.5},
+{id:186,name:"Monty Ioane",nation:"ITA",pos:"Wing",price:7.5},
+{id:187,name:"Lorenzo Cannone",nation:"ITA",pos:"Number 8",price:7.0},
+{id:188,name:"Niccolò Cannone",nation:"ITA",pos:"Lock",price:7.0},
+{id:189,name:"Leonardo Marin",nation:"ITA",pos:"Full Back",price:7.0},
+{id:190,name:"Paolo Odogwu",nation:"ITA",pos:"Centre",price:6.5},
+{id:191,name:"Stephen Varney",nation:"ITA",pos:"Scrum Half",price:6.5},
+{id:192,name:"Juan Ignacio Brex",nation:"ITA",pos:"Centre",price:6.5},
+{id:193,name:"Danilo Fischetti",nation:"ITA",pos:"Prop",price:6.0},
+{id:194,name:"Simone Ferrari",nation:"ITA",pos:"Prop",price:6.0},
+{id:195,name:"Alessandro Fusco",nation:"ITA",pos:"Scrum Half",price:6.0},
+{id:196,name:"Manuel Zuliani",nation:"ITA",pos:"Flanker",price:6.0},
+{id:197,name:"Gianmarco Nicotera",nation:"ITA",pos:"Hooker",price:6.0},
+{id:198,name:"Federico Ruzza",nation:"ITA",pos:"Lock",price:6.0},
+{id:199,name:"Matt Gallagher",nation:"ITA",pos:"Full Back",price:6.0},
+{id:200,name:"Edoardo Todaro",nation:"ITA",pos:"Wing",price:5.5},
+{id:201,name:"Lorenzo Pani",nation:"ITA",pos:"Full Back",price:5.5},
+{id:202,name:"Federico Zambonin",nation:"ITA",pos:"Lock",price:5.5},
+{id:203,name:"Giacomo Da Re",nation:"ITA",pos:"Fly Half",price:5.5},
+{id:204,name:"Alessandro Garbisi",nation:"ITA",pos:"Scrum Half",price:5.0},
+{id:205,name:"Damiano Mazza",nation:"ITA",pos:"Centre",price:5.0},
+{id:206,name:"Samuele Locatelli",nation:"ITA",pos:"Flanker",price:5.0},
+{id:207,name:"Giosuè Zilocchi",nation:"ITA",pos:"Prop",price:5.0},
+{id:208,name:"Marco Spagnolo",nation:"ITA",pos:"Prop",price:5.0},
+{id:209,name:"Andrea Di Bartolomeo",nation:"ITA",pos:"Hooker",price:5.0},
+{id:210,name:"Marco Favretto",nation:"ITA",pos:"Flanker",price:5.0},
+{id:211,name:"Luca Hasa",nation:"ITA",pos:"Prop",price:5.0}
 ];
 
 // ============ APP STATE ============
@@ -342,13 +479,14 @@ const STATE = {
 
 // ============ SCORING ENGINE ============
 const SCORING = {
-  try:20, try_assist:10, conversion:5, penalty_goal:3, drop_goal:10,
-  clean_break:5, offload:3, tackle:1, turnover:7, lineout_steal:5,
+  try:20, try_assist:10, conversion:3, penalty_goal:3, drop_goal:10,
+  clean_break:5, offload:3, metres:0.1, defenders_beaten:1,
+  tackle:1, turnover:7, lineout_steal:5,
   winning_team:5, mom:15, hat_trick:10,
   missed_tackle:-1, penalty_conceded:-3, yellow_card:-10, red_card:-20
 };
 
-function calculatePlayerPoints(playerStats, isCaptain) {
+function calculatePlayerPoints(playerStats, isCaptain, isBench) {
   if(!playerStats) return 0;
   let pts = 0;
   for(const [stat, value] of Object.entries(playerStats)) {
@@ -358,7 +496,10 @@ function calculatePlayerPoints(playerStats, isCaptain) {
   }
   // Hat-trick bonus
   if(playerStats.try && playerStats.try >= 3) pts += SCORING.hat_trick;
-  if(isCaptain) pts *= 2;
+  // Bench players earn half points
+  if(isBench) pts = Math.round(pts * 0.5);
+  // Captain multiplier
+  if(isCaptain) pts = Math.round(pts * 1.5);
   return pts;
 }
 
@@ -367,7 +508,8 @@ function getPlayerRoundPoints(playerId, round) {
   if(!rd || !rd.players) return 0;
   const ps = rd.players.find(p => p.id === playerId);
   if(!ps) return 0;
-  return calculatePlayerPoints(ps.stats, STATE.captainId === playerId);
+  const isBench = STATE.myTeam.indexOf(playerId) >= 11;
+  return calculatePlayerPoints(ps.stats, STATE.captainId === playerId, isBench);
 }
 
 function getTeamRoundPoints(round) {
@@ -441,6 +583,14 @@ function getNationColor(nation) {
 }
 
 // ============ PITCH RENDERING ============
+function posAbbrev(pos) {
+  const map = {'Prop':'PR','Hooker':'HK','Lock':'LK','Flanker':'FL','Number 8':'N8','Scrum Half':'SH','Fly Half':'FH','Centre':'CE','Wing':'WG','Full Back':'FB'};
+  return map[pos] || pos.substring(0,2).toUpperCase();
+}
+function posFromSlot(slot) {
+  const map = {'PR':'Prop','HK':'Hooker','LK':'Lock','FL':'Flanker','N8':'Number 8','SH':'Scrum Half','FH':'Fly Half','CE':'Centre','WG':'Wing','FB':'Full Back'};
+  return map[slot] || slot;
+}
 const FORMATION = [
   {row:'FB',count:1,label:'Fullback'},
   {row:'WG',count:2,label:'Wings'},
@@ -482,13 +632,13 @@ function renderPitch() {
       const pts = pid ? getPlayerRoundPoints(pid, STATE.currentRound) : 0;
       if(player) {
         html += '<div class="player-slot'+(isCap?' captain':'')+'" onclick="openPlayerDetail('+player.id+')" oncontextmenu="event.preventDefault();setCaptain('+player.id+')">';
-        html += '<div class="jersey" style="background:'+getNationColor(player.nation)+'">'+(isCap?'C':player.pos)+'</div>';
+        html += '<div class="jersey" style="background:'+getNationColor(player.nation)+'">'+(isCap?'C':posAbbrev(player.pos))+'</div>';
         html += '<div class="pname">'+player.name.split(' ').pop()+'</div>';
         html += '<div class="pts">'+pts+' pts</div></div>';
       } else {
         html += '<div class="player-slot empty" onclick="openSelectModal('+slotIdx+',\''+pos+'\')">';
         html += '<div class="jersey">+</div>';
-        html += '<div class="pname">'+pos+'</div><div class="pts">tap to add</div></div>';
+        html += '<div class="pname">'+posFromSlot(pos)+'</div><div class="pts">tap to add</div></div>';
       }
       slotIdx++;
     });
@@ -542,13 +692,17 @@ function openSelectModal(slotIdx, pos) {
   selectingSlot = slotIdx;
   const modal = document.getElementById('selectModal');
   modal.classList.add('active');
-  document.getElementById('selectModalTitle').textContent = pos ? 'Select '+pos : 'Select Bench Player';
+  document.getElementById('selectModalTitle').textContent = pos ? 'Select '+posFromSlot(pos) : 'Select Bench Player';
   
   let available = PLAYERS.filter(p => !STATE.myTeam.includes(p.id));
   if(pos && pos !== '') available = available.filter(p => {
-    if(pos==='PR') return p.pos==='PR';
-    if(pos==='HK') return p.pos==='HK';
-    return p.pos === pos;
+    const fullPos = posFromSlot(pos);
+    if(pos==='PR') return p.pos==='Prop';
+    if(pos==='HK') return p.pos==='Hooker';
+    if(pos==='LK') return p.pos==='Lock';
+    if(pos==='FL') return p.pos==='Flanker';
+    if(pos==='N8') return p.pos==='Number 8';
+    return p.pos === fullPos;
   });
   // Nation limit check
   available = available.filter(p => {
@@ -585,7 +739,7 @@ function setCaptain(pid) {
   STATE.captainId = pid;
   saveState();
   renderPitch();
-  showToast('Captain set! Points x2');
+  showToast('Captain set! Points x1.5');
 }
 
 // ============ PLAYER DETAIL MODAL ============
@@ -612,7 +766,7 @@ function openPlayerDetail(pid) {
         html += '<div class="row"><span>'+label+(typeof val==='number'&&val>1?' x'+val:'')+'</span><span style="color:'+(pts>=0?'var(--green)':'#e74c3c')+'">'+( pts>0?'+':'')+pts+'</span></div>';
       }
     }
-    if(STATE.captainId===pid) { html += '<div class="row"><span>Captain Bonus (x2)</span><span style="color:var(--gold)">+'+total+'</span></div>'; total*=2; }
+    if(STATE.captainId===pid) { html += '<div class="row"><span>Captain Bonus (x1.5)</span><span style="color:var(--gold)">+'+total+'</span></div>'; total*=2; }
     html += '<div class="row" style="border-top:2px solid var(--green);margin-top:4px;padding-top:8px"><span>Total</span><span><strong>'+total+' pts</strong></span></div></div>';
   } else {
     html += '<p style="color:#666;font-size:0.85rem">No stats available for Round '+STATE.currentRound+'</p>';
