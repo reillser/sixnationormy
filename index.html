@@ -5,444 +5,844 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Six Nations Fantasy Rugby 2026</title>
 <style>
-:root {
-  --ireland-green: #169B62;
-  --dark-green: #0e7a4c;
-  --light-green: #1db870;
-  --gold: #FFD700;
-  --white: #ffffff;
-  --card-bg: rgba(255,255,255,0.95);
-  --text-dark: #1a1a2e;
-  --text-muted: #555;
-  --shadow: 0 4px 15px rgba(0,0,0,0.1);
-}
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: linear-gradient(135deg, var(--ireland-green) 0%, var(--dark-green) 50%, #0a5c3a 100%);
-  min-height: 100vh;
-  color: var(--text-dark);
-}
-.app-container { max-width: 480px; margin: 0 auto; padding: 12px; min-height: 100vh; }
-
-/* Header */
-.app-header {
-  text-align: center;
-  padding: 20px 16px;
-  color: var(--white);
-}
-.app-header h1 { font-size: 22px; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-.app-header .subtitle { font-size: 13px; opacity: 0.85; margin-top: 4px; }
-.round-indicator {
-  display: inline-block;
-  background: var(--gold);
-  color: var(--text-dark);
-  padding: 4px 14px;
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: 700;
-  margin-top: 10px;
-  text-transform: uppercase;
-}
-
-/* Tabs */
-.tabs {
-  display: flex;
-  background: rgba(255,255,255,0.15);
-  border-radius: 12px;
-  padding: 4px;
-  margin: 16px 0;
-  backdrop-filter: blur(10px);
-}
-.tab {
-  flex: 1;
-  padding: 10px 8px;
-  text-align: center;
-  border-radius: 10px;
-  font-size: 12px;
-  font-weight: 600;
-  color: rgba(255,255,255,0.7);
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.tab.active {
-  background: var(--white);
-  color: var(--ireland-green);
-  box-shadow: var(--shadow);
-}
-
-/* Score Summary */
-.score-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 8px;
-  margin-bottom: 16px;
-}
-.score-box {
-  background: var(--card-bg);
-  border-radius: 12px;
-  padding: 14px 8px;
-  text-align: center;
-  box-shadow: var(--shadow);
-}
-.score-box .label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-.score-box .val { font-size: 24px; font-weight: 800; color: var(--ireland-green); margin-top: 2px; }
-.score-box .val.gold { color: #b8860b; }
-
-/* Cards */
-.card {
-  background: var(--card-bg);
-  border-radius: 14px;
-  padding: 16px;
-  margin-bottom: 12px;
-  box-shadow: var(--shadow);
-}
-.card-title { font-size: 14px; font-weight: 700; color: var(--text-dark); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-
-/* Match Results */
-.match-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 0;
-  border-bottom: 1px solid #eee;
-}
-.match-row:last-child { border-bottom: none; }
-.match-team { font-size: 13px; font-weight: 600; width: 90px; }
-.match-team.away { text-align: right; }
-.match-score { font-size: 16px; font-weight: 800; color: var(--ireland-green); min-width: 60px; text-align: center; }
-
-/* Player List */
-.player-item {
-  display: grid;
-  grid-template-columns: 32px 1fr 50px;
-  align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid #f0f0f0;
-  gap: 10px;
-}
-.player-item:last-child { border-bottom: none; }
-.player-item.captain { background: linear-gradient(90deg, #fff9e6 0%, transparent 100%); margin: 0 -8px; padding: 10px 8px; border-radius: 8px; }
-.pos-tag {
-  width: 32px; height: 32px;
-  border-radius: 8px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 10px; font-weight: 700;
-}
-.pos-tag.back { background: #e8f5e9; color: #2e7d32; }
-.pos-tag.half { background: #ede7f6; color: #5e35b1; }
-.pos-tag.fwd { background: #fce4ec; color: #c62828; }
-.player-name { font-size: 13px; font-weight: 600; }
-.player-meta { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
-.player-pts { font-size: 16px; font-weight: 800; color: var(--ireland-green); text-align: right; }
-.captain-badge { font-size: 9px; background: var(--gold); color: #333; padding: 1px 5px; border-radius: 8px; font-weight: 700; margin-left: 4px; }
-
-/* League Table */
-.league-row {
-  display: grid;
-  grid-template-columns: 28px 1fr 50px;
-  align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid #f0f0f0;
-}
-.league-row:last-child { border-bottom: none; }
-.league-row.you { background: linear-gradient(90deg, #e8f5e9 0%, transparent 100%); margin: 0 -8px; padding: 10px 8px; border-radius: 8px; }
-.league-rank { font-size: 14px; font-weight: 800; color: var(--text-muted); }
-.league-rank.top { color: var(--gold); }
-.league-name { font-size: 13px; font-weight: 600; }
-.league-team { font-size: 11px; color: var(--text-muted); }
-.league-pts { font-size: 16px; font-weight: 800; color: var(--ireland-green); text-align: right; }
-
-/* Scoring Rules */
-.rules-section { margin-bottom: 16px; }
-.rules-section h4 { font-size: 12px; color: var(--ireland-green); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
-.rule-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 12px; }
-.rule-row .pts { font-weight: 700; color: var(--ireland-green); }
-.rule-row .pts.neg { color: #c62828; }
-
-/* Tab Content */
-.tab-content { display: none; }
-.tab-content.active { display: block; }
-
-/* Footer */
-.app-footer { text-align: center; padding: 20px; color: rgba(255,255,255,0.5); font-size: 11px; }
+:root{--green:#169B62;--green-dark:#0e7a4a;--gold:#FFD700;--white:#ffffff;--light:#f4f7f5;--dark:#1a1a2e;--card:#ffffff;--shadow:0 4px 15px rgba(0,0,0,0.1);--radius:12px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--green);color:var(--dark);min-height:100vh}
+.app-header{background:var(--green-dark);color:var(--white);padding:16px 20px;text-align:center;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,0.2)}
+.app-header h1{font-size:1.4rem;letter-spacing:1px}
+.app-header .subtitle{font-size:0.8rem;opacity:0.8;margin-top:4px}
+.budget-bar{background:rgba(255,255,255,0.15);border-radius:20px;padding:6px 16px;margin-top:8px;display:inline-block;font-size:0.85rem}
+.budget-bar .amount{color:var(--gold);font-weight:700}
+nav{display:flex;background:var(--green-dark);border-top:1px solid rgba(255,255,255,0.1);overflow-x:auto;-webkit-overflow-scrolling:touch}
+nav button{flex:1;min-width:80px;padding:12px 8px;border:none;background:transparent;color:rgba(255,255,255,0.7);font-size:0.75rem;font-weight:600;cursor:pointer;transition:all 0.2s;border-bottom:3px solid transparent;white-space:nowrap}
+nav button.active{color:var(--white);border-bottom-color:var(--gold);background:rgba(255,255,255,0.05)}
+nav button:hover{color:var(--white)}
+.tab-content{display:none;padding:16px;max-width:900px;margin:0 auto}
+.tab-content.active{display:block}
+.card{background:var(--card);border-radius:var(--radius);padding:16px;margin-bottom:12px;box-shadow:var(--shadow)}
+.card h3{color:var(--green);margin-bottom:8px;font-size:1rem}
+.card-gold{border-left:4px solid var(--gold)}
+.btn{display:inline-block;padding:10px 20px;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.85rem;transition:all 0.2s}
+.btn-primary{background:var(--green);color:var(--white)}
+.btn-primary:hover{background:var(--green-dark)}
+.btn-gold{background:var(--gold);color:var(--dark)}
+.btn-danger{background:#e74c3c;color:var(--white)}
+.btn-sm{padding:6px 12px;font-size:0.75rem}
+.badge{display:inline-block;padding:3px 8px;border-radius:12px;font-size:0.7rem;font-weight:600}
+.badge-nation{color:var(--white)}
+.badge-irl{background:#169B62}.badge-fra{background:#002395}.badge-eng{background:#E4002B}
+.badge-sco{background:#003078}.badge-wal{background:#D4003C}.badge-ita{background:#0066CC}
+.pitch{background:linear-gradient(180deg,#2d8a4e 0%,#34a058 50%,#2d8a4e 100%);border-radius:var(--radius);padding:20px 10px;margin-bottom:16px;position:relative;min-height:500px}
+.pitch::before{content:'';position:absolute;top:50%;left:10%;right:10%;height:2px;background:rgba(255,255,255,0.3)}
+.pitch-row{display:flex;justify-content:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.player-slot{width:70px;text-align:center;cursor:pointer;transition:transform 0.2s}
+.player-slot:hover{transform:scale(1.05)}
+.player-slot .jersey{width:40px;height:40px;border-radius:50%;margin:0 auto 4px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.7rem;color:var(--white);border:2px solid rgba(255,255,255,0.5)}
+.player-slot .pname{font-size:0.65rem;color:var(--white);font-weight:600;line-height:1.2}
+.player-slot .pts{font-size:0.6rem;color:var(--gold);font-weight:700}
+.player-slot.empty .jersey{background:rgba(255,255,255,0.2);border:2px dashed rgba(255,255,255,0.5)}
+.player-slot.captain .jersey{border-color:var(--gold);box-shadow:0 0 10px rgba(255,215,0,0.5)}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:200;align-items:center;justify-content:center;padding:16px}
+.modal-overlay.active{display:flex}
+.modal{background:var(--white);border-radius:var(--radius);padding:24px;max-width:500px;width:100%;max-height:80vh;overflow-y:auto}
+.modal h3{margin-bottom:16px;color:var(--green)}
+.player-list-item{display:flex;align-items:center;padding:10px;border-bottom:1px solid #eee;cursor:pointer;transition:background 0.2s}
+.player-list-item:hover{background:var(--light)}
+.player-list-item .info{flex:1}
+.player-list-item .name{font-weight:600;font-size:0.9rem}
+.player-list-item .meta{font-size:0.75rem;color:#666}
+.player-list-item .price{font-weight:700;color:var(--green)}
+.round-nav{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:16px}
+.round-nav button{background:var(--white);border:none;border-radius:50%;width:36px;height:36px;cursor:pointer;font-weight:700;box-shadow:var(--shadow)}
+.round-nav span{color:var(--white);font-weight:700;font-size:1.1rem}
+.league-table{width:100%;border-collapse:collapse}
+.league-table th{text-align:left;padding:10px 8px;border-bottom:2px solid var(--green);font-size:0.8rem;color:var(--green)}
+.league-table td{padding:10px 8px;border-bottom:1px solid #eee;font-size:0.85rem}
+.league-table tr:first-child td{font-weight:700}
+.league-table .rank{width:30px;text-align:center}
+.h2h-container{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:start}
+.h2h-team{text-align:center}
+.h2h-vs{color:var(--white);font-weight:700;font-size:1.2rem;padding-top:40px}
+.h2h-score{font-size:2rem;font-weight:700;color:var(--gold)}
+.stat-bar{height:8px;background:#eee;border-radius:4px;margin:4px 0;overflow:hidden}
+.stat-bar-fill{height:100%;background:var(--green);border-radius:4px;transition:width 0.5s}
+.transfer-item{display:flex;align-items:center;justify-content:between;padding:12px;border:1px solid #eee;border-radius:8px;margin-bottom:8px}
+.transfer-item .arrow{margin:0 12px;font-size:1.2rem}
+.admin-panel{background:var(--dark);border-radius:var(--radius);padding:24px;color:var(--white)}
+.admin-panel textarea{width:100%;min-height:200px;padding:12px;border-radius:8px;border:1px solid #333;background:#2a2a3e;color:var(--white);font-family:monospace;font-size:0.8rem;resize:vertical}
+.admin-panel input[type=file]{margin:12px 0}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--dark);color:var(--white);padding:12px 24px;border-radius:8px;z-index:300;display:none;font-size:0.85rem}
+.toast.show{display:block;animation:fadeInUp 0.3s}
+@keyframes fadeInUp{from{opacity:0;transform:translateX(-50%) translateY(10px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+.filters{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.filters select,.filters input{padding:8px 12px;border:1px solid #ddd;border-radius:8px;font-size:0.8rem}
+.points-breakdown{font-size:0.8rem}
+.points-breakdown .row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f0f0f0}
+.points-breakdown .row:last-child{border:none;font-weight:700}
+.empty-state{text-align:center;padding:40px;color:rgba(255,255,255,0.8)}
+.empty-state p{margin-top:8px;font-size:0.9rem}
+@media(max-width:480px){.h2h-container{grid-template-columns:1fr;text-align:center}.h2h-vs{padding:8px 0}.player-slot{width:60px}.player-slot .jersey{width:35px;height:35px}}
 </style>
 </head>
 <body>
-<div class="app-container">
-  <div class="app-header">
-    <h1>🏉 Six Nations Fantasy Rugby</h1>
-    <div class="subtitle">The Armchair Coaches · 2026</div>
-    <div class="round-indicator">Round 1 Complete</div>
-  </div>
 
-  <!-- Tabs -->
-  <div class="tabs">
-    <div class="tab active" onclick="showTab('team')">My Team</div>
-    <div class="tab" onclick="showTab('league')">League</div>
-    <div class="tab" onclick="showTab('rules')">Rules</div>
-    <div class="tab" onclick="showTab('results')">Results</div>
-  </div>
+<div class="app-header">
+<h1>🏉 SIX NATIONS FANTASY 2026</h1>
+<div class="subtitle">Pick your XV • Score big • Win the league</div>
+<div class="budget-bar">Budget: <span class="amount" id="budgetDisplay">€100.0m</span> remaining</div>
+</div>
+<nav>
+<button class="active" onclick="showTab('team')">My Team</button>
+<button onclick="showTab('transfers')">Transfers</button>
+<button onclick="showTab('league')">League</button>
+<button onclick="showTab('h2h')">H2H</button>
+<button onclick="showTab('results')">Results</button>
+<button onclick="showTab('rules')">Rules</button>
+</nav>
 
-  <!-- MY TEAM TAB -->
-  <div id="tab-team" class="tab-content active">
-    <div class="score-row">
-      <div class="score-box"><div class="label">Round 1</div><div class="val">187</div></div>
-      <div class="score-box"><div class="label">Rank</div><div class="val gold">3rd</div></div>
-      <div class="score-box"><div class="label">Total</div><div class="val">187</div></div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">🏆 Team: Try Hards</div>
-      <div class="player-item captain">
-        <div class="pos-tag half">SH</div>
-        <div><div class="player-name">A. Dupont <span class="captain-badge">C ×2</span></div><div class="player-meta">🇫🇷 France · Try, 2 assists, 4 breaks</div></div>
-        <div class="player-pts">52</div>
-      </div>
-      <div class="player-item">
-        <div class="pos-tag back">WG</div>
-        <div><div class="player-name">L. Bielle-Biarrey</div><div class="player-meta">🇫🇷 France · 2 tries, 3 clean breaks</div></div>
-        <div class="player-pts">60</div>
-      </div>
-      <div class="player-item">
-        <div class="pos-tag back">FB</div>
-        <div><div class="player-name">T. Ramos</div><div class="player-meta">🇫🇷 France · 4 conv, 2 pens, assist</div></div>
-        <div class="player-pts">41</div>
-      </div>
-      <div class="player-item">
-        <div class="pos-tag fwd">FL</div>
-        <div><div class="player-name">C. Ollivon</div><div class="player-meta">🇫🇷 France · Try, 8 tackles, turnover</div></div>
-        <div class="player-pts">40</div>
-      </div>
-      <div class="player-item">
-        <div class="pos-tag fwd">N8</div>
-        <div><div class="player-name">G. Alldritt</div><div class="player-meta">🇫🇷 France · 14 tackles, 2 turnovers</div></div>
-        <div class="player-pts">38</div>
-      </div>
-      <div class="player-item">
-        <div class="pos-tag fwd">LK</div>
-        <div><div class="player-name">M. Itoje</div><div class="player-meta">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England · 12 tackles, 2 TOs, steal</div></div>
-        <div class="player-pts">36</div>
-      </div>
-      <div class="player-item">
-        <div class="pos-tag back">WG</div>
-        <div><div class="player-name">I. Feyi-Waboso</div><div class="player-meta">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England · Try, 2 clean breaks</div></div>
-        <div class="player-pts">35</div>
-      </div>
-      <div class="player-item">
-        <div class="pos-tag back">CE</div>
-        <div><div class="player-name">O. Lawrence</div><div class="player-meta">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England · Try, offload, 6 tackles</div></div>
-        <div class="player-pts">34</div>
-      </div>
-      <div class="player-item">
-        <div class="pos-tag half">FH</div>
-        <div><div class="player-name">M. Jalibert</div><div class="player-meta">🇫🇷 France · Try, conversion</div></div>
-        <div class="player-pts">30</div>
-      </div>
-      <div class="player-item">
-        <div class="pos-tag fwd">HK</div>
-        <div><div class="player-name">J. George</div><div class="player-meta">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England · 6 tackles, lineout 100%</div></div>
-        <div class="player-pts">14</div>
-      </div>
-      <div class="player-item">
-        <div class="pos-tag fwd">PR</div>
-        <div><div class="player-name">T. Furlong</div><div class="player-meta">🇮🇪 Ireland · 4 tackles, scrum pen won</div></div>
-        <div class="player-pts">7</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- LEAGUE TAB -->
-  <div id="tab-league" class="tab-content">
-    <div class="card">
-      <div class="card-title">📊 The Armchair Coaches</div>
-      <div class="league-row">
-        <div class="league-rank top">1</div>
-        <div><div class="league-name">Dave</div><div class="league-team">Ruck & Roll</div></div>
-        <div class="league-pts">203</div>
-      </div>
-      <div class="league-row">
-        <div class="league-rank top">2</div>
-        <div><div class="league-name">Niamh</div><div class="league-team">Maul Stars</div></div>
-        <div class="league-pts">194</div>
-      </div>
-      <div class="league-row you">
-        <div class="league-rank top">3</div>
-        <div><div class="league-name">Lisa ⭐</div><div class="league-team">Try Hards</div></div>
-        <div class="league-pts">187</div>
-      </div>
-      <div class="league-row">
-        <div class="league-rank">4</div>
-        <div><div class="league-name">Conor</div><div class="league-team">Scrum Diddly</div></div>
-        <div class="league-pts">171</div>
-      </div>
-      <div class="league-row">
-        <div class="league-rank">5</div>
-        <div><div class="league-name">Sarah</div><div class="league-team">Tackle This</div></div>
-        <div class="league-pts">158</div>
-      </div>
-      <div class="league-row">
-        <div class="league-rank">6</div>
-        <div><div class="league-name">Mark</div><div class="league-team">Lineout Legends</div></div>
-        <div class="league-pts">142</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- RESULTS TAB -->
-  <div id="tab-results" class="tab-content">
-    <div class="card">
-      <div class="card-title">📋 Round 1 Results</div>
-      <div class="match-row">
-        <div class="match-team">🇫🇷 France</div>
-        <div class="match-score">36 - 14</div>
-        <div class="match-team away">Ireland 🇮🇪</div>
-      </div>
-      <div class="match-row">
-        <div class="match-team">🇮🇹 Italy</div>
-        <div class="match-score">18 - 15</div>
-        <div class="match-team away">Scotland 🏴󠁧󠁢󠁳󠁣󠁴󠁿</div>
-      </div>
-      <div class="match-row">
-        <div class="match-team">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England</div>
-        <div class="match-score">48 - 7</div>
-        <div class="match-team away">Wales 🏴󠁧󠁢󠁷󠁬󠁳󠁿</div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-title">⭐ Top Scorers - Round 1</div>
-      <div class="player-item">
-        <div class="pos-tag back">WG</div>
-        <div><div class="player-name">L. Bielle-Biarrey</div><div class="player-meta">🇫🇷 France · 2 tries, 3 breaks</div></div>
-        <div class="player-pts">60</div>
-      </div>
-      <div class="player-item">
-        <div class="pos-tag half">SH</div>
-        <div><div class="player-name">A. Dupont</div><div class="player-meta">🇫🇷 France · Try, 2 assists</div></div>
-        <div class="player-pts">26</div>
-      </div>
-      <div class="player-item">
-        <div class="pos-tag back">FB</div>
-        <div><div class="player-name">T. Ramos</div><div class="player-meta">🇫🇷 France · 4 conv, 2 pens</div></div>
-        <div class="player-pts">41</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- RULES TAB -->
-  <div id="tab-rules" class="tab-content">
-    <div class="card">
-      <div class="card-title">📐 Scoring System</div>
-      <div class="rules-section">
-        <h4>⚡ Attack</h4>
-        <div class="rule-row"><span>Try scored</span><span class="pts">+20</span></div>
-        <div class="rule-row"><span>Try assist</span><span class="pts">+10</span></div>
-        <div class="rule-row"><span>Conversion kicked</span><span class="pts">+5</span></div>
-        <div class="rule-row"><span>Penalty goal</span><span class="pts">+3</span></div>
-        <div class="rule-row"><span>Drop goal</span><span class="pts">+10</span></div>
-        <div class="rule-row"><span>Clean break</span><span class="pts">+5</span></div>
-        <div class="rule-row"><span>Offload</span><span class="pts">+3</span></div>
-      </div>
-      <div class="rules-section">
-        <h4>🛡️ Defence</h4>
-        <div class="rule-row"><span>Tackle made</span><span class="pts">+1</span></div>
-        <div class="rule-row"><span>Turnover won</span><span class="pts">+7</span></div>
-        <div class="rule-row"><span>Lineout steal</span><span class="pts">+5</span></div>
-      </div>
-      <div class="rules-section">
-        <h4>🎖️ Bonuses</h4>
-        <div class="rule-row"><span>Winning team</span><span class="pts">+5</span></div>
-        <div class="rule-row"><span>Captain (×2 all points)</span><span class="pts">×2</span></div>
-        <div class="rule-row"><span>Man of the Match</span><span class="pts">+15</span></div>
-        <div class="rule-row"><span>Hat-trick (3+ tries)</span><span class="pts">+10</span></div>
-      </div>
-      <div class="rules-section">
-        <h4>❌ Penalties</h4>
-        <div class="rule-row"><span>Missed tackle</span><span class="pts neg">−1</span></div>
-        <div class="rule-row"><span>Penalty conceded</span><span class="pts neg">−3</span></div>
-        <div class="rule-row"><span>Yellow card</span><span class="pts neg">−10</span></div>
-        <div class="rule-row"><span>Red card</span><span class="pts neg">−20</span></div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-title">📋 Team Rules</div>
-      <div style="font-size:12px; line-height:1.8; color: var(--text-muted);">
-        <b>Squad:</b> 15 players (11 starting + 4 bench)<br>
-        <b>Budget:</b> €100m · Players priced €5m–€12m<br>
-        <b>Max per nation:</b> 5 players<br>
-        <b>Captain:</b> 1 per round · points doubled<br>
-        <b>Transfers:</b> 2 free per round · −5pts each extra<br>
-        <b>Bench:</b> Auto-sub if starter doesn't play
-      </div>
-    </div>
-  </div>
-
-  <div class="app-footer">Six Nations Fantasy Rugby 2026 · Built with ☘️</div>
+<!-- MY TEAM TAB -->
+<div id="tab-team" class="tab-content active">
+<div class="round-nav">
+<button onclick="changeRound(-1)">◀</button>
+<span id="roundLabel">Round 1</span>
+<button onclick="changeRound(1)">▶</button>
+</div>
+<div class="pitch" id="pitchView"></div>
+<div class="card card-gold">
+<h3>📊 Team Summary</h3>
+<div id="teamSummary">Select your 15 players to get started</div>
+</div>
+<div class="card">
+<h3>🪑 Bench</h3>
+<div id="benchView">4 bench spots available</div>
+</div>
 </div>
 
+<!-- TRANSFERS TAB -->
+<div id="tab-transfers" class="tab-content">
+<div class="card card-gold">
+<h3>🔄 Transfer Market</h3>
+<p style="font-size:0.85rem;color:#666;margin-bottom:8px">Free transfers: <strong id="freeTransfers">2</strong>/2 | Extra transfers cost <strong>-5 pts</strong> each</p>
+<p style="font-size:0.8rem;color:#e74c3c" id="deadlineWarning">⚠️ Deadline: Thu 5 Feb, 20:00 GMT (Round 1 kickoff)</p>
+</div>
+<div class="filters">
+<select id="filterNation" onchange="renderTransferList()"><option value="">All Nations</option><option value="IRL">Ireland</option><option value="FRA">France</option><option value="ENG">England</option><option value="SCO">Scotland</option><option value="ITA">Italy</option><option value="WAL">Wales</option></select>
+<select id="filterPos" onchange="renderTransferList()"><option value="">All Positions</option><option value="PR">Prop</option><option value="HK">Hooker</option><option value="LK">Lock</option><option value="FL">Flanker</option><option value="N8">No.8</option><option value="SH">Scrum-half</option><option value="FH">Fly-half</option><option value="CE">Centre</option><option value="WG">Wing</option><option value="FB">Fullback</option></select>
+<input type="text" id="filterSearch" placeholder="Search player..." oninput="renderTransferList()">
+</div>
+<div id="transferList"></div>
+</div>
+
+<!-- LEAGUE TAB -->
+<div id="tab-league" class="tab-content">
+<div class="card">
+<h3>🏆 League Standings</h3>
+<table class="league-table">
+<thead><tr><th class="rank">#</th><th>Manager</th><th>R1</th><th>R2</th><th>R3</th><th>R4</th><th>R5</th><th>Total</th></tr></thead>
+<tbody id="leagueBody"></tbody>
+</table>
+</div>
+</div>
+
+<!-- HEAD TO HEAD TAB -->
+<div id="tab-h2h" class="tab-content">
+<div class="card">
+<h3>⚔️ Head to Head</h3>
+<div class="filters" style="margin-bottom:16px">
+<select id="h2hManager1" onchange="renderH2H()"></select>
+<select id="h2hManager2" onchange="renderH2H()"></select>
+</div>
+<div id="h2hContent"></div>
+</div>
+</div>
+
+<!-- RESULTS TAB -->
+<div id="tab-results" class="tab-content">
+<div class="round-nav">
+<button onclick="changeResultsRound(-1)">◀</button>
+<span id="resultsRoundLabel">Round 1</span>
+<button onclick="changeResultsRound(1)">▶</button>
+</div>
+<div id="resultsContent"></div>
+</div>
+
+<!-- RULES TAB -->
+<div id="tab-rules" class="tab-content">
+<div class="card"><h3>📋 Scoring Rules</h3>
+<div class="points-breakdown">
+<div class="row"><span>Try</span><span>+20 pts</span></div>
+<div class="row"><span>Try Assist</span><span>+10 pts</span></div>
+<div class="row"><span>Conversion</span><span>+5 pts</span></div>
+<div class="row"><span>Penalty Goal</span><span>+3 pts</span></div>
+<div class="row"><span>Drop Goal</span><span>+10 pts</span></div>
+<div class="row"><span>Clean Break</span><span>+5 pts</span></div>
+<div class="row"><span>Offload</span><span>+3 pts</span></div>
+<div class="row"><span>Tackle Made</span><span>+1 pt</span></div>
+<div class="row"><span>Turnover Won</span><span>+7 pts</span></div>
+<div class="row"><span>Lineout Steal</span><span>+5 pts</span></div>
+<div class="row"><span>Winning Team Bonus</span><span>+5 pts</span></div>
+<div class="row"><span>Man of the Match</span><span>+15 pts</span></div>
+<div class="row"><span>Hat-trick Bonus</span><span>+10 pts</span></div>
+<div class="row"><span>Missed Tackle</span><span>-1 pt</span></div>
+<div class="row"><span>Penalty Conceded</span><span>-3 pts</span></div>
+<div class="row"><span>Yellow Card</span><span>-10 pts</span></div>
+<div class="row"><span>Red Card</span><span>-20 pts</span></div>
+</div></div>
+<div class="card"><h3>📝 Team Rules</h3>
+<div class="points-breakdown">
+<div class="row"><span>Squad Size</span><span>15 (11+4 bench)</span></div>
+<div class="row"><span>Budget</span><span>€100m</span></div>
+<div class="row"><span>Player Prices</span><span>€5m - €12m</span></div>
+<div class="row"><span>Max Per Nation</span><span>5 players</span></div>
+<div class="row"><span>Captain</span><span>x2 multiplier</span></div>
+<div class="row"><span>Free Transfers</span><span>2 per round</span></div>
+<div class="row"><span>Extra Transfer Cost</span><span>-5 pts each</span></div>
+</div></div>
+</div>
+
+<!-- ADMIN PANEL (hidden by default) -->
+<div id="tab-admin" class="tab-content">
+<div class="admin-panel">
+<h3 style="color:var(--gold)">⚙️ Admin Panel</h3>
+<p style="font-size:0.8rem;margin:8px 0;opacity:0.7">Upload or paste round data JSON</p>
+<div style="margin-bottom:12px"><label style="font-size:0.8rem">Upload JSON file:</label><br><input type="file" id="jsonFileUpload" accept=".json" onchange="handleFileUpload(event)"></div>
+<textarea id="adminJson" placeholder="Or paste round JSON data here..."></textarea>
+<div style="margin-top:12px;display:flex;gap:8px">
+<button class="btn btn-gold" onclick="loadAdminData()">Load Data</button>
+<button class="btn btn-danger" onclick="resetAllData()">Reset All</button>
+</div>
+<div id="adminStatus" style="margin-top:12px;font-size:0.8rem"></div>
+</div>
+</div>
+
+<!-- PLAYER DETAIL MODAL -->
+<div class="modal-overlay" id="playerModal">
+<div class="modal">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+<h3 id="modalPlayerName">Player</h3>
+<button class="btn btn-sm" onclick="closeModal()">✕</button>
+</div>
+<div id="modalPlayerContent"></div>
+</div>
+</div>
+
+<!-- PLAYER SELECTION MODAL -->
+<div class="modal-overlay" id="selectModal">
+<div class="modal">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+<h3 id="selectModalTitle">Select Player</h3>
+<button class="btn btn-sm" onclick="closeSelectModal()">✕</button>
+</div>
+<div id="selectModalList"></div>
+</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
 <script>
-// === SCORING ENGINE ===
-const SCORING_RULES = {
-  tries: 20,
-  try_assists: 10,
-  conversions: 5,
-  penalty_goals: 3,
-  drop_goals: 10,
-  tackles: 1,
-  missed_tackles: -1,
-  carries: 0,
-  metres: 0,
-  clean_breaks: 5,
-  offloads: 3,
-  turnovers_won: 7,
-  lineout_steals: 5,
-  penalties_conceded: -3,
-  yellow_cards: -10,
-  red_cards: -20,
-  winning_team: 5,
-  mom: 15,
-  hat_trick: 10  // 3+ tries bonus
+// ============ PLAYER DATABASE ============
+const PLAYERS = [
+// FRANCE
+{id:1,name:"Antoine Dupont",nation:"FRA",pos:"SH",price:12.0},
+{id:2,name:"Louis Bielle-Biarrey",nation:"FRA",pos:"WG",price:10.5},
+{id:3,name:"Thomas Ramos",nation:"FRA",pos:"FB",price:10.0},
+{id:4,name:"Matthieu Jalibert",nation:"FRA",pos:"FH",price:9.5},
+{id:5,name:"Charles Ollivon",nation:"FRA",pos:"FL",price:9.0},
+{id:6,name:"Gregory Alldritt",nation:"FRA",pos:"N8",price:9.0},
+{id:7,name:"Romain Ntamack",nation:"FRA",pos:"FH",price:8.5},
+{id:8,name:"Damian Penaud",nation:"FRA",pos:"WG",price:8.5},
+{id:9,name:"Thibaud Flament",nation:"FRA",pos:"LK",price:7.5},
+{id:10,name:"Julien Marchand",nation:"FRA",pos:"HK",price:7.0},
+{id:11,name:"Theo Attissogbe",nation:"FRA",pos:"WG",price:7.0},
+// IRELAND
+{id:12,name:"Caelan Doris",nation:"IRL",pos:"N8",price:10.0},
+{id:13,name:"Bundee Aki",nation:"IRL",pos:"CE",price:8.0},
+{id:14,name:"Tadhg Furlong",nation:"IRL",pos:"PR",price:7.5},
+{id:15,name:"Josh van der Flier",nation:"IRL",pos:"FL",price:8.5},
+{id:16,name:"Hugo Keenan",nation:"IRL",pos:"FB",price:8.0},
+{id:17,name:"Jack Crowley",nation:"IRL",pos:"FH",price:8.0},
+{id:18,name:"Jamison Gibson-Park",nation:"IRL",pos:"SH",price:7.5},
+{id:19,name:"James Lowe",nation:"IRL",pos:"WG",price:7.5},
+{id:20,name:"Garry Ringrose",nation:"IRL",pos:"CE",price:7.0},
+{id:21,name:"Tadhg Beirne",nation:"IRL",pos:"LK",price:8.5},
+{id:22,name:"Conor Murray",nation:"IRL",pos:"SH",price:6.5},
+{id:23,name:"Cian Healy",nation:"IRL",pos:"PR",price:5.5},
+// ENGLAND
+{id:24,name:"Marcus Smith",nation:"ENG",pos:"FH",price:9.0},
+{id:25,name:"Maro Itoje",nation:"ENG",pos:"LK",price:9.5},
+{id:26,name:"Ben Earl",nation:"ENG",pos:"FL",price:9.0},
+{id:27,name:"Immanuel Feyi-Waboso",nation:"ENG",pos:"WG",price:8.0},
+{id:28,name:"Henry Slade",nation:"ENG",pos:"CE",price:7.5},
+{id:29,name:"George Furbank",nation:"ENG",pos:"FB",price:7.5},
+{id:30,name:"Jamie George",nation:"ENG",pos:"HK",price:7.0},
+{id:31,name:"Ellis Genge",nation:"ENG",pos:"PR",price:7.0},
+{id:32,name:"Alex Mitchell",nation:"ENG",pos:"SH",price:7.5},
+{id:33,name:"Ollie Lawrence",nation:"ENG",pos:"CE",price:7.0},
+{id:34,name:"Sam Underhill",nation:"ENG",pos:"FL",price:6.5},
+// SCOTLAND
+{id:35,name:"Finn Russell",nation:"SCO",pos:"FH",price:8.5},
+{id:36,name:"Duhan van der Merwe",nation:"SCO",pos:"WG",price:8.5},
+{id:37,name:"Huw Jones",nation:"SCO",pos:"CE",price:7.0},
+{id:38,name:"Rory Darge",nation:"SCO",pos:"FL",price:7.5},
+{id:39,name:"Blair Kinghorn",nation:"SCO",pos:"FB",price:7.0},
+{id:40,name:"Jamie Ritchie",nation:"SCO",pos:"FL",price:7.0},
+{id:41,name:"Ben White",nation:"SCO",pos:"SH",price:6.5},
+{id:42,name:"Scott Cummings",nation:"SCO",pos:"LK",price:6.5},
+{id:43,name:"Ewan Ashman",nation:"SCO",pos:"HK",price:6.0},
+{id:44,name:"Pierre Schoeman",nation:"SCO",pos:"PR",price:6.0},
+// ITALY
+{id:45,name:"Ange Capuozzo",nation:"ITA",pos:"FB",price:8.0},
+{id:46,name:"Paolo Garbisi",nation:"ITA",pos:"FH",price:7.5},
+{id:47,name:"Michele Lamaro",nation:"ITA",pos:"FL",price:7.0},
+{id:48,name:"Tommaso Allan",nation:"ITA",pos:"FH",price:6.0},
+{id:49,name:"Lorenzo Cannone",nation:"ITA",pos:"LK",price:6.5},
+{id:50,name:"Monty Ioane",nation:"ITA",pos:"WG",price:6.5},
+{id:51,name:"Juan Ignacio Brex",nation:"ITA",pos:"CE",price:6.0},
+{id:52,name:"Stephen Varney",nation:"ITA",pos:"SH",price:6.0},
+{id:53,name:"Danilo Fischetti",nation:"ITA",pos:"PR",price:5.5},
+{id:54,name:"Giacomo Nicotera",nation:"ITA",pos:"HK",price:5.5},
+// WALES
+{id:55,name:"Jac Morgan",nation:"WAL",pos:"FL",price:7.5},
+{id:56,name:"Dewi Lake",nation:"WAL",pos:"HK",price:6.5},
+{id:57,name:"Liam Williams",nation:"WAL",pos:"FB",price:6.5},
+{id:58,name:"Josh Adams",nation:"WAL",pos:"WG",price:7.0},
+{id:59,name:"Tomos Williams",nation:"WAL",pos:"SH",price:6.5},
+{id:60,name:"Gareth Anscombe",nation:"WAL",pos:"FH",price:6.0},
+{id:61,name:"Adam Beard",nation:"WAL",pos:"LK",price:6.0},
+{id:62,name:"Taulupe Faletau",nation:"WAL",pos:"N8",price:7.0},
+{id:63,name:"Will Rowlands",nation:"WAL",pos:"LK",price:6.0},
+{id:64,name:"Rio Dyer",nation:"WAL",pos:"WG",price:6.0},
+{id:65,name:"Nick Tompkins",nation:"WAL",pos:"CE",price:6.0},
+// Extra players
+{id:66,name:"Andrew Porter",nation:"IRL",pos:"PR",price:7.5},
+{id:67,name:"Dan Sheehan",nation:"IRL",pos:"HK",price:7.0},
+{id:68,name:"Cian Prendergast",nation:"IRL",pos:"FL",price:6.5},
+{id:69,name:"Cameron Woki",nation:"FRA",pos:"LK",price:8.0},
+{id:70,name:"Cyril Baille",nation:"FRA",pos:"PR",price:7.0},
+];
+
+// ============ APP STATE ============
+const STATE = {
+  currentRound: 1,
+  resultsRound: 1,
+  myTeam: [], // array of player IDs (first 11 starting, last 4 bench)
+  captainId: null,
+  freeTransfers: 2,
+  usedTransfers: 0,
+  roundData: {}, // {1: {...}, 2: {...}}
+  leagueManagers: [
+    {name:"You",scores:[0,0,0,0,0]},
+    {name:"Seamus O\'Brien",scores:[82,0,0,0,0]},
+    {name:"Paddy Murphy",scores:[76,0,0,0,0]},
+    {name:"Ciara Walsh",scores:[91,0,0,0,0]},
+    {name:"Declan Byrne",scores:[68,0,0,0,0]},
+    {name:"Aoife Connolly",scores:[85,0,0,0,0]},
+  ]
 };
 
-function calculatePlayerScore(playerStats, isWinningTeam, isCaptain, isMom) {
-  let score = 0;
-  for (const [stat, value] of Object.entries(playerStats)) {
-    if (SCORING_RULES[stat] !== undefined) {
-      score += value * SCORING_RULES[stat];
+// ============ SCORING ENGINE ============
+const SCORING = {
+  try:20, try_assist:10, conversion:5, penalty_goal:3, drop_goal:10,
+  clean_break:5, offload:3, tackle:1, turnover:7, lineout_steal:5,
+  winning_team:5, mom:15, hat_trick:10,
+  missed_tackle:-1, penalty_conceded:-3, yellow_card:-10, red_card:-20
+};
+
+function calculatePlayerPoints(playerStats, isCaptain) {
+  if(!playerStats) return 0;
+  let pts = 0;
+  for(const [stat, value] of Object.entries(playerStats)) {
+    if(SCORING[stat] !== undefined) {
+      pts += SCORING[stat] * (typeof value === 'number' ? value : (value ? 1 : 0));
     }
   }
-  if (isWinningTeam) score += SCORING_RULES.winning_team;
-  if (isMom) score += SCORING_RULES.mom;
-  if (playerStats.tries >= 3) score += SCORING_RULES.hat_trick;
-  if (isCaptain) score *= 2;
-  return score;
+  // Hat-trick bonus
+  if(playerStats.try && playerStats.try >= 3) pts += SCORING.hat_trick;
+  if(isCaptain) pts *= 2;
+  return pts;
 }
 
-// Process match data JSON
-function processRoundData(roundData, fantasyTeam) {
-  const results = [];
-  for (const match of roundData.matches) {
-    const winningTeam = match.score.home > match.score.away ? match.home : match.away;
-    for (const player of match.players) {
-      if (fantasyTeam.players.includes(player.name)) {
-        const isWinning = player.team === winningTeam;
-        const isCaptain = fantasyTeam.captain === player.name;
-        const isMom = match.mom === player.name;
-        const pts = calculatePlayerScore(player.stats, isWinning, isCaptain, isMom);
-        results.push({ ...player, fantasy_points: pts, is_captain: isCaptain });
+function getPlayerRoundPoints(playerId, round) {
+  const rd = STATE.roundData[round];
+  if(!rd || !rd.players) return 0;
+  const ps = rd.players.find(p => p.id === playerId);
+  if(!ps) return 0;
+  return calculatePlayerPoints(ps.stats, STATE.captainId === playerId);
+}
+
+function getTeamRoundPoints(round) {
+  let total = 0;
+  STATE.myTeam.forEach(pid => { total += getPlayerRoundPoints(pid, round); });
+  return total;
+}
+
+function getTotalPoints() {
+  let t = 0;
+  for(let r = 1; r <= 5; r++) t += getTeamRoundPoints(r);
+  return t;
+}
+
+// ============ LOCAL STORAGE ============
+function saveState() {
+  const data = {myTeam:STATE.myTeam,captainId:STATE.captainId,freeTransfers:STATE.freeTransfers,usedTransfers:STATE.usedTransfers,roundData:STATE.roundData};
+  localStorage.setItem('fantasyRugby2026', JSON.stringify(data));
+}
+
+function loadState() {
+  const saved = localStorage.getItem('fantasyRugby2026');
+  if(saved) {
+    const d = JSON.parse(saved);
+    STATE.myTeam = d.myTeam || [];
+    STATE.captainId = d.captainId || null;
+    STATE.freeTransfers = d.freeTransfers ?? 2;
+    STATE.usedTransfers = d.usedTransfers || 0;
+    if(d.roundData) STATE.roundData = d.roundData;
+  }
+}
+
+// ============ UI FUNCTIONS ============
+function showTab(tab) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  event.target.classList.add('active');
+  if(tab==='team') renderPitch();
+  if(tab==='transfers') renderTransferList();
+  if(tab==='league') renderLeague();
+  if(tab==='h2h') initH2H();
+  if(tab==='results') renderResults();
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2500);
+}
+
+function changeRound(dir) {
+  STATE.currentRound = Math.max(1, Math.min(5, STATE.currentRound + dir));
+  document.getElementById('roundLabel').textContent = 'Round ' + STATE.currentRound;
+  renderPitch();
+}
+
+function changeResultsRound(dir) {
+  STATE.resultsRound = Math.max(1, Math.min(5, STATE.resultsRound + dir));
+  document.getElementById('resultsRoundLabel').textContent = 'Round ' + STATE.resultsRound;
+  renderResults();
+}
+
+function getNationClass(nation) {
+  return 'badge-'+nation.toLowerCase();
+}
+
+function getNationColor(nation) {
+  const colors = {IRL:'#169B62',FRA:'#002395',ENG:'#E4002B',SCO:'#003078',WAL:'#D4003C',ITA:'#0066CC'};
+  return colors[nation] || '#666';
+}
+
+// ============ PITCH RENDERING ============
+const FORMATION = [
+  {row:'FB',count:1,label:'Fullback'},
+  {row:'WG',count:2,label:'Wings'},
+  {row:'CE',count:2,label:'Centres'},
+  {row:'FH',count:1,label:'Fly-half'},
+  {row:'SH',count:1,label:'Scrum-half'},
+  {row:'N8',count:1,label:'No.8'},
+  {row:'FL',count:2,label:'Flankers'},
+  {row:'LK',count:2,label:'Locks'},
+  {row:'FR',count:3,label:'Front Row'} // HK + 2xPR
+];
+
+function getStartingPositions() {
+  // Returns ordered array of position slots for 11 starters
+  return ['FB','WG','WG','CE','CE','FH','SH','FL','FL','LK','PR'];
+}
+
+function renderPitch() {
+  const pitch = document.getElementById('pitchView');
+  const positions = [
+    {positions:['FB'],y:0},
+    {positions:['WG','WG'],y:1},
+    {positions:['CE','CE'],y:2},
+    {positions:['FH','SH'],y:3},
+    {positions:['N8'],y:4},
+    {positions:['FL','FL'],y:5},
+    {positions:['LK','LK'],y:6},
+    {positions:['PR','HK','PR'],y:7}
+  ];
+  
+  let html = '';
+  let slotIdx = 0;
+  positions.forEach(row => {
+    html += '<div class="pitch-row">';
+    row.positions.forEach(pos => {
+      const pid = STATE.myTeam[slotIdx];
+      const player = pid ? PLAYERS.find(p=>p.id===pid) : null;
+      const isCap = pid && pid === STATE.captainId;
+      const pts = pid ? getPlayerRoundPoints(pid, STATE.currentRound) : 0;
+      if(player) {
+        html += '<div class="player-slot'+(isCap?' captain':'')+'" onclick="openPlayerDetail('+player.id+')" oncontextmenu="event.preventDefault();setCaptain('+player.id+')">';
+        html += '<div class="jersey" style="background:'+getNationColor(player.nation)+'">'+(isCap?'C':player.pos)+'</div>';
+        html += '<div class="pname">'+player.name.split(' ').pop()+'</div>';
+        html += '<div class="pts">'+pts+' pts</div></div>';
+      } else {
+        html += '<div class="player-slot empty" onclick="openSelectModal('+slotIdx+',\''+pos+'\')">';
+        html += '<div class="jersey">+</div>';
+        html += '<div class="pname">'+pos+'</div><div class="pts">tap to add</div></div>';
+      }
+      slotIdx++;
+    });
+    html += '</div>';
+  });
+  pitch.innerHTML = html;
+  
+  // Bench
+  renderBench();
+  updateBudget();
+  renderTeamSummary();
+}
+
+function renderBench() {
+  const bench = document.getElementById('benchView');
+  let html = '<div style="display:flex;gap:8px;flex-wrap:wrap">';
+  for(let i=11; i<15; i++) {
+    const pid = STATE.myTeam[i];
+    const player = pid ? PLAYERS.find(p=>p.id===pid) : null;
+    if(player) {
+      const pts = getPlayerRoundPoints(pid, STATE.currentRound);
+      html += '<div style="background:var(--light);padding:8px 12px;border-radius:8px;font-size:0.8rem;cursor:pointer" onclick="openPlayerDetail('+player.id+')"><strong>'+player.name.split(' ').pop()+'</strong> <span class="badge badge-nation '+getNationClass(player.nation)+'">'+player.nation+'</span> '+pts+'pts</div>';
+    } else {
+      html += '<div style="background:var(--light);padding:8px 12px;border-radius:8px;font-size:0.8rem;cursor:pointer;opacity:0.5" onclick="openSelectModal('+i+',\'\')"">+ Bench</div>';
+    }
+  }
+  html += '</div>';
+  bench.innerHTML = html;
+}
+
+function renderTeamSummary() {
+  const el = document.getElementById('teamSummary');
+  const pts = getTeamRoundPoints(STATE.currentRound);
+  const total = getTotalPoints();
+  const count = STATE.myTeam.filter(Boolean).length;
+  el.innerHTML = '<div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px"><div><strong>Round '+STATE.currentRound+':</strong> '+pts+' pts</div><div><strong>Total:</strong> '+total+' pts</div><div><strong>Players:</strong> '+count+'/15</div></div>';
+}
+
+function updateBudget() {
+  const spent = STATE.myTeam.reduce((sum, pid) => {
+    const p = PLAYERS.find(pl=>pl.id===pid);
+    return sum + (p ? p.price : 0);
+  }, 0);
+  const remaining = (100 - spent).toFixed(1);
+  document.getElementById('budgetDisplay').textContent = '€'+remaining+'m';
+}
+
+// ============ PLAYER SELECTION MODAL ============
+let selectingSlot = -1;
+function openSelectModal(slotIdx, pos) {
+  selectingSlot = slotIdx;
+  const modal = document.getElementById('selectModal');
+  modal.classList.add('active');
+  document.getElementById('selectModalTitle').textContent = pos ? 'Select '+pos : 'Select Bench Player';
+  
+  let available = PLAYERS.filter(p => !STATE.myTeam.includes(p.id));
+  if(pos && pos !== '') available = available.filter(p => {
+    if(pos==='PR') return p.pos==='PR';
+    if(pos==='HK') return p.pos==='HK';
+    return p.pos === pos;
+  });
+  // Nation limit check
+  available = available.filter(p => {
+    const nationCount = STATE.myTeam.filter(pid => {const pl=PLAYERS.find(x=>x.id===pid);return pl&&pl.nation===p.nation}).length;
+    return nationCount < 5;
+  });
+  // Budget check
+  const spent = STATE.myTeam.reduce((s,pid)=>{const pl=PLAYERS.find(x=>x.id===pid);return s+(pl?pl.price:0)},0);
+  const budget = 100 - spent;
+  available = available.filter(p => p.price <= budget);
+  available.sort((a,b) => b.price - a.price);
+  
+  let html = '';
+  available.forEach(p => {
+    html += '<div class="player-list-item" onclick="selectPlayer('+p.id+')"><div class="info"><div class="name">'+p.name+'</div><div class="meta"><span class="badge badge-nation '+getNationClass(p.nation)+'">'+p.nation+'</span> '+p.pos+'</div></div><div class="price">€'+p.price.toFixed(1)+'m</div></div>';
+  });
+  if(!html) html = '<p style="padding:20px;text-align:center;color:#666">No available players for this position/budget</p>';
+  document.getElementById('selectModalList').innerHTML = html;
+}
+
+function selectPlayer(pid) {
+  STATE.myTeam[selectingSlot] = pid;
+  closeSelectModal();
+  saveState();
+  renderPitch();
+  showToast('Player added!');
+}
+
+function closeSelectModal() {
+  document.getElementById('selectModal').classList.remove('active');
+}
+
+function setCaptain(pid) {
+  STATE.captainId = pid;
+  saveState();
+  renderPitch();
+  showToast('Captain set! Points x2');
+}
+
+// ============ PLAYER DETAIL MODAL ============
+function openPlayerDetail(pid) {
+  const player = PLAYERS.find(p=>p.id===pid);
+  if(!player) return;
+  const modal = document.getElementById('playerModal');
+  modal.classList.add('active');
+  document.getElementById('modalPlayerName').textContent = player.name;
+  
+  const rd = STATE.roundData[STATE.currentRound];
+  const ps = rd && rd.players ? rd.players.find(p=>p.id===pid) : null;
+  
+  let html = '<div style="margin-bottom:12px"><span class="badge badge-nation '+getNationClass(player.nation)+'">'+player.nation+'</span> <strong>'+player.pos+'</strong> | €'+player.price.toFixed(1)+'m</div>';
+  
+  if(ps && ps.stats) {
+    html += '<h4 style="margin-bottom:8px">Round '+STATE.currentRound+' Breakdown</h4><div class="points-breakdown">';
+    let total = 0;
+    for(const [stat,val] of Object.entries(ps.stats)) {
+      if(SCORING[stat] !== undefined && val) {
+        const pts = SCORING[stat] * (typeof val==='number'?val:(val?1:0));
+        total += pts;
+        const label = stat.replace(/_/g,' ').replace(/\b\w/g,l=>l.toUpperCase());
+        html += '<div class="row"><span>'+label+(typeof val==='number'&&val>1?' x'+val:'')+'</span><span style="color:'+(pts>=0?'var(--green)':'#e74c3c')+'">'+( pts>0?'+':'')+pts+'</span></div>';
       }
     }
+    if(STATE.captainId===pid) { html += '<div class="row"><span>Captain Bonus (x2)</span><span style="color:var(--gold)">+'+total+'</span></div>'; total*=2; }
+    html += '<div class="row" style="border-top:2px solid var(--green);margin-top:4px;padding-top:8px"><span>Total</span><span><strong>'+total+' pts</strong></span></div></div>';
+  } else {
+    html += '<p style="color:#666;font-size:0.85rem">No stats available for Round '+STATE.currentRound+'</p>';
   }
-  return results.sort((a, b) => b.fantasy_points - a.fantasy_points);
+  
+  html += '<div style="margin-top:16px;display:flex;gap:8px">';
+  if(STATE.myTeam.includes(pid)) {
+    html += '<button class="btn btn-danger btn-sm" onclick="removePlayer('+pid+')">Remove</button>';
+    if(STATE.captainId!==pid) html += '<button class="btn btn-gold btn-sm" onclick="setCaptain('+pid+');closeModal()">Make Captain</button>';
+  }
+  html += '</div>';
+  document.getElementById('modalPlayerContent').innerHTML = html;
 }
 
-// === TAB NAVIGATION ===
-function showTab(tabName) {
-  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('tab-' + tabName).classList.add('active');
-  event.target.classList.add('active');
+function removePlayer(pid) {
+  const idx = STATE.myTeam.indexOf(pid);
+  if(idx>=0) STATE.myTeam[idx] = undefined;
+  if(STATE.captainId===pid) STATE.captainId=null;
+  saveState(); closeModal(); renderPitch();
+  showToast('Player removed');
 }
+
+function closeModal() { document.getElementById('playerModal').classList.remove('active'); }
+
+// ============ TRANSFER LIST ============
+function renderTransferList() {
+  const nation = document.getElementById('filterNation').value;
+  const pos = document.getElementById('filterPos').value;
+  const search = document.getElementById('filterSearch').value.toLowerCase();
+  
+  let list = PLAYERS.slice();
+  if(nation) list = list.filter(p=>p.nation===nation);
+  if(pos) list = list.filter(p=>p.pos===pos);
+  if(search) list = list.filter(p=>p.name.toLowerCase().includes(search));
+  list.sort((a,b)=>b.price-a.price);
+  
+  const el = document.getElementById('transferList');
+  let html = '';
+  list.forEach(p => {
+    const owned = STATE.myTeam.includes(p.id);
+    const pts = getPlayerRoundPoints(p.id, STATE.currentRound);
+    html += '<div class="card" style="padding:12px;display:flex;align-items:center;'+(owned?'border-left:3px solid var(--gold)':'')+'"><div style="flex:1"><strong>'+p.name+'</strong><br><span class="badge badge-nation '+getNationClass(p.nation)+'">'+p.nation+'</span> '+p.pos+' | '+pts+' pts R'+STATE.currentRound+'</div><div style="text-align:right"><div style="font-weight:700;color:var(--green)">€'+p.price.toFixed(1)+'m</div>'+(owned?'<span style="font-size:0.7rem;color:var(--gold)">IN SQUAD</span>':'<button class="btn btn-primary btn-sm" onclick="transferIn('+p.id+')">Add</button>')+'</div></div>';
+  });
+  el.innerHTML = html;
+}
+
+function transferIn(pid) {
+  if(STATE.myTeam.filter(Boolean).length >= 15) { showToast('Squad full! Remove a player first'); return; }
+  const p = PLAYERS.find(x=>x.id===pid);
+  const nationCount = STATE.myTeam.filter(id=>{const pl=PLAYERS.find(x=>x.id===id);return pl&&pl.nation===p.nation}).length;
+  if(nationCount>=5) { showToast('Max 5 players per nation!'); return; }
+  const spent = STATE.myTeam.reduce((s,id)=>{const pl=PLAYERS.find(x=>x.id===id);return s+(pl?pl.price:0)},0);
+  if(spent+p.price>100) { showToast('Over budget!'); return; }
+  // Find empty slot
+  let slot = STATE.myTeam.indexOf(undefined);
+  if(slot<0) slot = STATE.myTeam.length;
+  STATE.myTeam[slot] = pid;
+  saveState(); renderTransferList();
+  showToast(p.name+' added!');
+}
+
+// ============ LEAGUE TABLE ============
+function renderLeague() {
+  STATE.leagueManagers[0].scores[STATE.currentRound-1] = getTeamRoundPoints(STATE.currentRound);
+  const sorted = STATE.leagueManagers.map(m=>({...m,total:m.scores.reduce((a,b)=>a+b,0)})).sort((a,b)=>b.total-a.total);
+  let html = '';
+  sorted.forEach((m,i) => {
+    html += '<tr'+(m.name==='You'?' style="background:rgba(22,155,98,0.1)"':'')+'><td class="rank">'+(i+1)+'</td><td>'+m.name+(m.name==='You'?' 👑':'')+'</td>';
+    m.scores.forEach(s => html += '<td>'+(s||'-')+'</td>');
+    html += '<td><strong>'+m.total+'</strong></td></tr>';
+  });
+  document.getElementById('leagueBody').innerHTML = html;
+}
+
+// ============ HEAD TO HEAD ============
+function initH2H() {
+  const s1 = document.getElementById('h2hManager1');
+  const s2 = document.getElementById('h2hManager2');
+  if(!s1.options.length) {
+    STATE.leagueManagers.forEach((m,i) => {
+      s1.add(new Option(m.name,i));
+      s2.add(new Option(m.name,i));
+    });
+    s2.selectedIndex = 1;
+  }
+  renderH2H();
+}
+
+function renderH2H() {
+  const m1 = STATE.leagueManagers[document.getElementById('h2hManager1').value];
+  const m2 = STATE.leagueManagers[document.getElementById('h2hManager2').value];
+  const t1 = m1.scores.reduce((a,b)=>a+b,0);
+  const t2 = m2.scores.reduce((a,b)=>a+b,0);
+  const maxPts = Math.max(t1,t2,1);
+  
+  let html = '<div class="h2h-container"><div class="h2h-team"><div class="h2h-score">'+t1+'</div><div style="font-weight:600">'+m1.name+'</div></div><div class="h2h-vs">VS</div><div class="h2h-team"><div class="h2h-score">'+t2+'</div><div style="font-weight:600">'+m2.name+'</div></div></div>';
+  html += '<div style="margin-top:20px">';
+  for(let r=0;r<5;r++) {
+    const s1=m1.scores[r]||0, s2=m2.scores[r]||0;
+    html += '<div class="card" style="padding:10px;margin-bottom:8px"><div style="font-size:0.8rem;color:#666;margin-bottom:4px">Round '+(r+1)+'</div><div style="display:flex;justify-content:space-between"><span style="font-weight:600">'+s1+'</span><span style="font-weight:600">'+s2+'</span></div><div style="display:flex;gap:4px;margin-top:4px"><div class="stat-bar" style="flex:1"><div class="stat-bar-fill" style="width:'+(s1/Math.max(s1,s2,1)*100)+'%;background:var(--green)"></div></div><div class="stat-bar" style="flex:1"><div class="stat-bar-fill" style="width:'+(s2/Math.max(s1,s2,1)*100)+'%;background:var(--gold);float:right"></div></div></div></div>';
+  }
+  html += '</div>';
+  document.getElementById('h2hContent').innerHTML = html;
+}
+
+// ============ RESULTS TAB ============
+function renderResults() {
+  const rd = STATE.roundData[STATE.resultsRound];
+  const el = document.getElementById('resultsContent');
+  if(!rd || !rd.matches) {
+    el.innerHTML = '<div class="empty-state"><p>No results for Round '+STATE.resultsRound+' yet.</p><p style="font-size:0.8rem">Load data via Admin panel (#admin)</p></div>';
+    return;
+  }
+  let html = '';
+  rd.matches.forEach(m => {
+    html += '<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><div style="text-align:center;flex:1"><strong>'+m.home+'</strong></div><div style="font-size:1.3rem;font-weight:700;padding:0 12px">'+m.home_score+' - '+m.away_score+'</div><div style="text-align:center;flex:1"><strong>'+m.away+'</strong></div></div>';
+    if(m.venue) html += '<div style="text-align:center;font-size:0.75rem;color:#666;margin-top:4px">'+m.venue+'</div>';
+    html += '</div>';
+  });
+  // Top scorers
+  if(rd.players && rd.players.length) {
+    html += '<div class="card card-gold"><h3>⭐ Top Scorers - Round '+STATE.resultsRound+'</h3><div style="margin-top:8px">';
+    const scored = rd.players.map(ps => ({...ps, pts: calculatePlayerPoints(ps.stats, false)})).sort((a,b)=>b.pts-a.pts).slice(0,10);
+    scored.forEach((ps,i) => {
+      const player = PLAYERS.find(p=>p.id===ps.id);
+      const name = player ? player.name : ('Player #'+ps.id);
+      const nation = player ? player.nation : '??';
+      html += '<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f0f0f0"><span>'+(i+1)+'. '+name+' <span class="badge badge-nation '+getNationClass(nation)+'">'+nation+'</span></span><span style="font-weight:700;color:var(--green)">'+ps.pts+' pts</span></div>';
+    });
+    html += '</div></div>';
+  }
+  el.innerHTML = html;
+}
+
+// ============ ADMIN PANEL ============
+function handleFileUpload(event) {
+  const file = event.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    document.getElementById('adminJson').value = e.target.result;
+    showToast('File loaded - click "Load Data" to apply');
+  };
+  reader.readAsText(file);
+}
+
+function loadAdminData() {
+  const raw = document.getElementById('adminJson').value.trim();
+  if(!raw) { showToast('No data to load'); return; }
+  try {
+    const data = JSON.parse(raw);
+    const round = data.round || STATE.currentRound;
+    STATE.roundData[round] = data;
+    saveState();
+    document.getElementById('adminStatus').innerHTML = '<span style="color:#4caf50">✓ Round '+round+' data loaded successfully! ('+((data.players||[]).length)+' players, '+((data.matches||[]).length)+' matches)</span>';
+    showToast('Round '+round+' data loaded!');
+  } catch(e) {
+    document.getElementById('adminStatus').innerHTML = '<span style="color:#e74c3c">✗ Error: '+e.message+'</span>';
+  }
+}
+
+function resetAllData() {
+  if(confirm('Reset ALL data? This cannot be undone.')) {
+    localStorage.removeItem('fantasyRugby2026');
+    STATE.myTeam = []; STATE.captainId = null; STATE.roundData = {};
+    renderPitch(); showToast('All data reset');
+  }
+}
+
+// ============ ADMIN TAB VIA HASH ============
+function checkHash() {
+  if(window.location.hash === '#admin') {
+    document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+    document.getElementById('tab-admin').classList.add('active');
+  }
+}
+
+// ============ SAMPLE ROUND DATA ============
+const SAMPLE_ROUND1 = {
+  round: 1,
+  matches: [
+    {home:"France",away:"Ireland",home_score:36,away_score:14,venue:"Stade de France, Paris",date:"2026-02-05"},
+    {home:"Italy",away:"Scotland",home_score:18,away_score:15,venue:"Stadio Olimpico, Rome",date:"2026-02-07"},
+    {home:"England",away:"Wales",home_score:48,away_score:7,venue:"Twickenham, London",date:"2026-02-07"}
+  ],
+  players: [
+    {id:2,stats:{try:2,clean_break:2,tackle:3,winning_team:true}},
+    {id:4,stats:{try:1,conversion:3,penalty_goal:2,clean_break:1,winning_team:true}},
+    {id:5,stats:{try:1,tackle:8,turnover:1,winning_team:true}},
+    {id:1,stats:{try_assist:2,clean_break:3,tackle:5,offload:2,winning_team:true,mom:true}},
+    {id:11,stats:{try:1,clean_break:1,winning_team:true}},
+    {id:3,stats:{conversion:4,penalty_goal:1,tackle:4,winning_team:true}},
+    {id:15,stats:{try:0,tackle:10,turnover:2,missed_tackle:2}},
+    {id:12,stats:{tackle:7,offload:1,clean_break:1}},
+    {id:24,stats:{try:1,conversion:4,penalty_goal:2,clean_break:2,winning_team:true,mom:true}},
+    {id:25,stats:{tackle:9,lineout_steal:2,winning_team:true}},
+    {id:26,stats:{try:1,tackle:11,turnover:2,winning_team:true}},
+    {id:27,stats:{try:2,clean_break:2,winning_team:true}},
+    {id:45,stats:{try:1,clean_break:2,tackle:3,winning_team:true}},
+    {id:46,stats:{conversion:1,penalty_goal:3,winning_team:true}},
+    {id:36,stats:{try:1,clean_break:1,tackle:4,offload:1}},
+    {id:35,stats:{penalty_goal:2,drop_goal:1,missed_tackle:3}},
+    {id:55,stats:{tackle:6,turnover:1,penalty_conceded:2}},
+    {id:58,stats:{try:0,tackle:2,missed_tackle:4}}
+  ]
+};
+
+// ============ INITIALIZATION ============
+function init() {
+  loadState();
+  // Load sample data if no round data exists
+  if(!STATE.roundData[1]) {
+    STATE.roundData[1] = SAMPLE_ROUND1;
+    saveState();
+  }
+  renderPitch();
+  checkHash();
+  window.addEventListener('hashchange', checkHash);
+  
+  // Try to fetch round JSON files
+  for(let r=1; r<=5; r++) {
+    fetch('round'+r+'.json').then(res=>{if(res.ok)return res.json();throw 0}).then(data=>{
+      STATE.roundData[r]=data; saveState();
+      if(r===STATE.currentRound) renderPitch();
+    }).catch(()=>{});
+  }
+}
+
+document.addEventListener('DOMContentLoaded', init);
 </script>
 </body>
 </html>
