@@ -1,7 +1,7 @@
 # Fantasy Rugby Six Nations 2026 — "The Armchair Coaches"
 
 A single-page Fantasy Rugby web app for the 2026 Six Nations Championship.  
-Built as one `index.html` file (~41KB) for GitHub Pages. No external dependencies — pure HTML/CSS/JS.
+Built as one `index.html` file (~51KB) for GitHub Pages. No external dependencies — pure HTML/CSS/JS.
 
 ---
 
@@ -14,57 +14,200 @@ Built as one `index.html` file (~41KB) for GitHub Pages. No external dependencie
 
 ---
 
-## How It Works
+# 📖 User Guide — How to Play
 
-- **Squad**: Each manager picks 23 players (15 starting + 8 bench) within a €100m budget
-- **Limits**: Max 5 players per nation
-- **Captain**: 1 captain per round (scores ×1.5)
-- **Transfers**: 2 free transfers per round; additional transfers cost -5pts each
-- **Bench**: Bench players earn half points
-- **Lock**: All teams lock at the **first kickoff of the round** — no changes after that
+## The Basics
 
----
+You are the manager of a fantasy rugby team. Pick 15 real Six Nations players, earn points based on how they perform in actual matches, and compete against other managers in your league.
 
-## Player Database
-
-The app includes **138+ players** (23-man matchday squad × 6 nations per round).  
-Over the course of the tournament, the total pool grows as coaches make changes between rounds — expect **150–170 unique players** across all 5 rounds.
-
-Players are priced from €5m (bench props) to €12m (premium players like Dupont), based on form and quality.
+**Your goal:** Score the most points across all 5 rounds of the Six Nations to win "The Armchair Coaches" league.
 
 ---
 
-## Scoring Rules
+## Building Your Squad
 
-| Action | Points |
-|--------|--------|
-| Try | +20 |
-| Try Assist | +10 |
-| Conversion | +3 |
-| Penalty Goal | +3 |
-| Drop Goal | +10 |
-| Clean Break | +5 |
-| Offload | +3 |
-| Metres Made | +0.1 per metre |
-| Defenders Beaten | +1 |
-| Tackle | +1 |
-| Turnover Won | +7 |
-| Lineout Steal | +5 |
-| Winning Team | +5 |
-| Man of the Match | +15 |
-| Hat-trick Bonus | +10 |
-| Missed Tackle | -1 |
-| Penalty Conceded | -3 |
-| Yellow Card | -10 |
-| Red Card | -20 |
-| **Captain** | **×1.5** |
-| **Bench players** | **Half points** |
+### Budget & Limits
+- **€100m budget** — spend it wisely across 15 players
+- **15 players total**: 11 starters + 4 on the bench
+- **Max 5 players per nation** — you can't just stack all Irish players!
+- **Player prices range from €5m to €12m** — elite players cost more but score more
+
+### Positions (11 starters)
+Your starting XV must include:
+
+| Position | Count | Role |
+|----------|-------|------|
+| **Full Back** | 1 | Last line of defence, counter-attacks |
+| **Wing** | 2 | Try scorers, finishers |
+| **Centre** | 2 | Midfield runners, defenders |
+| **Fly Half** | 1 | Playmaker, kicker (big points potential) |
+| **Scrum Half** | 1 | Links forwards and backs |
+| **Number 8** | 1 | Ball carrier, link player |
+| **Flanker** | 2 | Tacklers, turnovers, breakdown workers |
+| **Lock** | 2 | Lineout, carries, tackling machines |
+| **Prop** | 2 | Scrummaging, carrying (cheap squad fillers) |
+| **Hooker** | 1 | Lineout thrower, tackler |
+
+### Bench (4 players)
+- Bench players earn **half points** — they're your insurance
+- Pick a mix of forwards and backs for flexibility
+- Good bench picks: cheap players in key positions, or a premium player you can't afford to start
 
 ---
+
+## Scoring System — How Points Are Earned
+
+### Attack (the big earners)
+
+| Action | Points | Notes |
+|--------|--------|-------|
+| **Try** | +20 | The biggest single action. Back-row and wings score most |
+| **Try Assist** | +10 | The final pass before a try |
+| **Conversion** | +3 | After each try — fly halves and full backs |
+| **Penalty Goal** | +3 | Steady points for accurate kickers |
+| **Drop Goal** | +10 | Rare but valuable |
+| **Clean Break** | +5 | Breaking through the defensive line |
+| **Offload** | +3 | Passing in the tackle — skilful backs |
+| **Metres Made** | +0.1 per metre | Adds up! A winger making 80m = 8pts |
+| **Defenders Beaten** | +1 | Evading tackles |
+
+### Defence (the grinders)
+
+| Action | Points | Notes |
+|--------|--------|-------|
+| **Tackle Made** | +1 | Flankers/locks can make 15+ per game = 15pts |
+| **Turnover Won** | +7 | Jackaling at the breakdown — flanker territory |
+| **Lineout Steal** | +5 | Disrupting opposition ball — tall locks |
+
+### Bonuses
+
+| Action | Points | Notes |
+|--------|--------|-------|
+| **Winning Team** | +5 | All 23 players on a winning team get this |
+| **Man of the Match** | +15 | One per match — big swing |
+| **Hat-trick Bonus** | +10 | Extra reward for 3+ tries |
+
+### Penalties (negative points)
+
+| Action | Points | Notes |
+|--------|--------|-------|
+| **Missed Tackle** | -1 | Poor defenders get punished |
+| **Penalty Conceded** | -3 | Ill-disciplined players cost you |
+| **Yellow Card** | -10 | 10 minutes off and -10 pts |
+| **Red Card** | -20 | Game over and a massive point hit |
+
+### Captain & Bench Multipliers
+
+| Rule | Effect |
+|------|--------|
+| **Captain** | Scores **×1.5** — choose your captain carefully each round |
+| **Bench players** | Score **half points** — starters are always more valuable |
+
+---
+
+## Strategy Tips
+
+### Captain Selection
+- Pick a player likely to have a **big game** — not just a safe pick
+- Fly halves in matches against weaker teams (kicking points + try involvements)
+- Back-row forwards in tight matches (tackle counts rack up)
+- Louis Bielle-Biarrey was the tournament's top scorer — wingers CAN be great captains
+
+### Budget Strategy
+- **Don't blow it all on stars** — you need 15 players within €100m
+- A €12m player needs to outscore two €6m players combined to be worth it
+- **Props are cheap (€5-7m)** and can still score well through tackles
+- **Fly halves are value** — they kick conversions AND penalties (+3 each time)
+
+### Transfer Tactics
+- **2 free transfers per round** — use them wisely
+- Extra transfers cost **-5 points each** — only do it if the gain is clear
+- Watch for injuries announced on Thursday — swap injured players out!
+- Target players facing weak opposition (check the fixture)
+
+### Bench Decisions
+- Bench players earn half points — it's always better to START your best
+- Use the bench for: injury cover, cheap nation-slot fillers, and fixture rotation
+- If unsure between two similar players, start the one with the easier fixture
+
+### Fixture Awareness
+- Teams playing at HOME tend to score more
+- Look at the previous round's results for form indicators
+- **France at home** were devastating in 2026 (36-14, 54-12, 48-46!)
+- **Italy at home** pulled off upsets (beat England 23-18 in Round 4)
+
+---
+
+## Transfers & Deadlines
+
+### How Transfers Work
+- You get **2 free transfers between each round**
+- Want more? Each extra transfer costs **-5 points** from your total
+- Changes must be made **before the deadline** (first kickoff of the round)
+
+### Deadline Lock
+- All teams lock at the **first kickoff of the round**
+- After lock, you CANNOT change your team, captain, or bench order
+- The countdown timer on the app shows how long you have left
+- **Set a reminder!** Thursday evening or Saturday morning depending on the round
+
+---
+
+## The League
+
+### How It Works
+- Everyone in the league picks their own team independently
+- Points accumulate across all 5 rounds
+- Final standings after Round 5 determine the winner
+- Head-to-Head comparisons available in the H2H tab
+
+### Viewing Your Score
+- **My Team tab**: See your current round score and pitch layout
+- **League tab**: See the full standings table with all 5 round columns
+- **H2H tab**: Compare yourself directly against any other manager
+- **Results tab**: See match results and top scorers for each round
+
+---
+
+## 2026 Six Nations Player Database
+
+The app includes **211 players** who featured across all 5 rounds:
+- **France**: 35 players (Champions 🏆)
+- **Ireland**: 38 players
+- **England**: 37 players
+- **Scotland**: 36 players
+- **Wales**: 35 players
+- **Italy**: 30 players
+
+### Key Players to Know
+
+| Player | Nation | Position | Price | Why Pick Them |
+|--------|--------|----------|-------|---------------|
+| Antoine Dupont | France | Scrum Half | €12.0m | Best player in the world, try assists machine |
+| Louis Bielle-Biarrey | France | Wing | €11.0m | 8 tries in 2026 — Player of the Tournament |
+| Caelan Doris | Ireland | Number 8 | €11.0m | Captain, carries and tackles galore |
+| Finn Russell | Scotland | Fly Half | €10.5m | Unpredictable genius, kicking points |
+| Maro Itoje | England | Lock | €10.0m | Tackle machine, lineout steals |
+| Paolo Garbisi | Italy | Fly Half | €9.0m | Italy's kicker — steady penalty points |
+
+---
+
+## Tips for New Players
+
+1. **Don't overthink Round 1** — just pick players you like and learn the scoring
+2. **Check the app on Thursday** — that's when team sheets come out
+3. **Set your captain before the deadline** — forgetting costs you 50% of their bonus!
+4. **Watch for yellow cards** — a player on -10 can ruin your week
+5. **Have fun** — it's called "The Armchair Coaches" for a reason 🍺
+
+---
+---
+
+# ⚙️ Admin Guide — Running the League
+
+You (the league admin) manage the data each round. Here's your workflow:
 
 ## Admin Instructions — Round-by-Round Workflow
-
-You (the league admin) need to do a few things each round. Here's the step-by-step:
 
 ### 📋 Step 1: Update Team Sheets (~48 hours before first kickoff)
 
@@ -85,7 +228,7 @@ You (the league admin) need to do a few things each round. Here's the step-by-st
 4. This updates the player database so managers can see who's starting/benched
 5. Verify the player list looks correct in the Transfer Market tab
 
-> ⚡ **Tip:** Check again on match morning — late changes occasionally happen after the captain's run (usually just injury-forced swaps on the bench).
+> ⚡ **Tip:** Check again on match morning — late changes occasionally happen after the captain's run.
 
 ### 🔒 Step 2: Confirm Lock Time
 
@@ -101,13 +244,12 @@ You (the league admin) need to do a few things each round. Here's the step-by-st
 
 **What to do:**
 1. In the Admin panel, confirm the **round deadline** is set correctly
-2. The countdown timer on the main page will show managers how long they have left
-3. Once locked, managers cannot make transfers or change their captain
-4. Remind the league in your group chat: _"Teams lock at [TIME] — get your transfers in!"_
+2. Once locked, managers cannot make transfers or change their captain
+3. Remind the league: _"Teams lock at [TIME] — get your transfers in!"_
 
 ### 📊 Step 3: Enter Match Results & Scoring (after all games complete)
 
-**When:** After the final whistle of the last match in the round (typically Saturday evening / Sunday).
+**When:** After the final whistle of the last match in the round.
 
 **Where to get scoring data:**
 1. **Match results & try scorers**: [sixnationsrugby.com](https://www.sixnationsrugby.com) → Match Centre
@@ -117,34 +259,26 @@ You (the league admin) need to do a few things each round. Here's the step-by-st
 
 **What to do:**
 1. Go to `yoursite.github.io/#admin`
-2. Create the **round results JSON** (see `roundX.json` format below)
-3. For each match, record:
-   - Final score
-   - Try scorers (and minute)
-   - Try assists (if available)
-   - Conversions and penalties kicked (and by whom)
-   - Yellow/red cards
-   - Man of the Match
-   - Detailed player stats (if sourcing from RugbyPass)
+2. Create the **round results JSON** (see format below)
+3. For each match, record: final score, try scorers, conversions/penalties, cards, MoM, detailed stats
 4. Paste the JSON into Admin panel and click **Load Data**
-5. The scoring engine will automatically calculate points for all players
+5. The scoring engine automatically calculates points for all players
 6. Check the League Table updates correctly
 
-> ⚡ **Tip:** Start with tries + kicking + cards + MoM (the big point-scorers). Add detailed stats (tackles, metres, offloads) later if you have time — they're smaller point values.
+> ⚡ **Tip:** Start with tries + kicking + cards + MoM (the big point-scorers). Add detailed stats later.
 
 ### 🔄 Step 4: Open Next Round for Transfers
 
 **When:** After scoring is loaded and verified.
 
 **What to do:**
-1. Update the player database with any new squad members (injury replacements, etc.)
-2. Set the next round's deadline in the Admin panel
-3. Managers can now start making their 2 free transfers for the next round
-4. Post in the group chat: _"Round X scores are in! Transfers open for Round Y."_
+1. Update the player database with any new squad members (injury replacements)
+2. Set the next round's deadline
+3. Post to the group: _"Round X scores are in! Transfers open for Round Y."_
 
 ---
 
-## Round Data JSON Format
+## Round Data JSON Formats
 
 ### Team Sheets (pre-round)
 
@@ -156,11 +290,11 @@ You (the league admin) need to do a few things each round. Here's the step-by-st
     {
       "team": "France",
       "starting_xv": [
-        {"number": 1, "name": "Jean-Baptiste Gros", "position": "PR"},
-        {"number": 2, "name": "Julien Marchand", "position": "HK"}
+        {"number": 1, "name": "Jean-Baptiste Gros", "position": "Prop"},
+        {"number": 9, "name": "Antoine Dupont", "position": "Scrum Half"}
       ],
       "replacements": [
-        {"number": 16, "name": "Peato Mauvaka", "position": "HK"}
+        {"number": 16, "name": "Peato Mauvaka", "position": "Hooker"}
       ]
     }
   ]
@@ -182,19 +316,17 @@ You (the league admin) need to do a few things each round. Here's the step-by-st
       "mom": "Louis Bielle-Biarrey"
     }
   ],
-  "player_stats": [
+  "players": [
     {
-      "name": "Louis Bielle-Biarrey",
-      "team": "France",
-      "tries": 2,
-      "conversions": 0,
-      "penalties": 0,
-      "clean_breaks": 3,
-      "tackles": 4,
-      "turnovers_won": 0,
-      "metres": 89,
-      "yellow_cards": 0,
-      "red_cards": 0
+      "id": 2,
+      "stats": {
+        "try": 2,
+        "clean_break": 3,
+        "metres": 89,
+        "defenders_beaten": 4,
+        "tackle": 4,
+        "winning_team": true
+      }
     }
   ]
 }
@@ -202,7 +334,7 @@ You (the league admin) need to do a few things each round. Here's the step-by-st
 
 ---
 
-## Weekly Admin Checklist (copy & paste each round)
+## Weekly Admin Checklist
 
 ```
 □ Tuesday/Wednesday: Check for early team news & injury updates  
@@ -223,9 +355,10 @@ You (the league admin) need to do a few things each round. Here's the step-by-st
 - **Storage**: localStorage for team persistence across sessions
 - **Data**: Fetches `round1.json`–`round5.json` on init (or loaded via Admin)
 - **Admin**: Access via `#admin` hash — paste JSON to load data
-- **Size**: ~41KB single HTML file
+- **Size**: ~51KB single HTML file
 - **Mobile**: Responsive, works on 480px+ screens
 - **No backend**: Everything runs client-side
+- **Players**: 211 across all 6 nations (full tournament squads)
 
 ---
 
@@ -235,6 +368,14 @@ You (the league admin) need to do a few things each round. Here's the step-by-st
 2. Optionally pre-add `round1.json` through `round5.json` files
 3. Access admin at `yoursite.github.io/#admin`
 4. Share the link with your league: "The Armchair Coaches"
+
+For GitHub Actions, add this to your workflow to avoid the Node.js 20 deprecation warning:
+```yaml
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+```
+
+Or simpler: go to Settings → Pages → deploy from branch (no workflow needed).
 
 ---
 
@@ -247,14 +388,3 @@ You (the league admin) need to do a few things each round. Here's the step-by-st
 | BBC Sport | bbc.co.uk/sport/rugby-union | Team sheets, live text updates |
 | National Unions | irishrugby.ie, ffr.fr, etc. | First to announce squads |
 | PlanetRugby | planetrugby.com | Injury news between rounds |
-
----
-
-## Future Enhancements (v2+)
-
-- [ ] Firebase auth for multi-user leagues
-- [ ] Countdown timer to transfer deadline
-- [ ] AI-assisted team sheet parsing from social media posts
-- [ ] Push notifications when teams are announced
-- [ ] Historical stats and player form indicators
-
